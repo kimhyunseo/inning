@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inning/core/app_theme.dart';
 import 'package:inning/core/widgets/design_system.dart';
 import 'package:inning/firebase_options.dart';
+import 'package:inning/page/welcome/welcome_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,9 +17,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: AppTheme.lightTheme,
-      home: const DesignSystemCheckPage(),
-    );
+    return MaterialApp(theme: AppTheme.lightTheme, home: WelcomePage());
   }
 }
