@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "547115412524",
+    "project_id": "inning-8e44c",
+    "storage_bucket": "inning-8e44c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:547115412524:android:bf214fb7a6fe8c4a003589",
+        "android_client_info": {
+          "package_name": "com.example.inning"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA79t7Xm0-HHvONNpl2zDTSB3Ml1hwkjGQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
