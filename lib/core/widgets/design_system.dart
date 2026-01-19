@@ -152,6 +152,7 @@ class DesignSystemCheckPage extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: item.color,
                     borderRadius: BorderRadius.circular(8),
+                    // ignore: deprecated_member_use
                     border: Border.all(color: AppColors.grey2.withOpacity(0.5)),
                   ),
                 ),
