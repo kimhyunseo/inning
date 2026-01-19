@@ -8,28 +8,16 @@ class InStadium extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        SingleChildScrollView(
-          padding: EdgeInsets.only(bottom: 150),
-          child: Column(
-            children: const [
-              StadiumLiveHeader(),
-              SizedBox(height: 16),
-              MatchScoreCard(),
-              PredictionCard(),
-            ],
-          ),
-        ),
-        Positioned(
-          left: 16,
-          right: 16,
-          bottom: 16,
-          child: SafeArea(
-            child: ElevatedButton(onPressed: () {}, child: const Text("입장하기")),
-          ),
-        ),
-      ],
+    return SingleChildScrollView(
+      padding: EdgeInsets.only(bottom: 150),
+      child: Column(
+        children: const [
+          StadiumLiveHeader(),
+          SizedBox(height: 16),
+          MatchScoreCard(),
+          PredictionCard(),
+        ],
+      ),
     );
   }
 }

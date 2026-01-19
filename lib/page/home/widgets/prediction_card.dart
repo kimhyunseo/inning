@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:inning/core/app_color.dart';
 import 'package:inning/core/app_shadow.dart';
+import 'package:inning/core/fonts.dart';
 
 class PredictionCard extends ConsumerWidget {
   const PredictionCard({super.key});
@@ -25,53 +27,44 @@ class PredictionCard extends ConsumerWidget {
           // 헤더
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               // 제목 + 서브텍스트
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
-                    '승부 예측',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xFF111111),
-                    ),
-                  ),
-                  SizedBox(height: 4),
+                children: [
+                  Text('승부 예측', style: AppTextStyles.bodyPrimary16w600),
+
                   Text(
                     '오늘 경기의 승리 팀은 어디일까요?',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                      color: Color(0xFF95ADCB),
+                    style: AppTextStyles.bodySecondary14w500.copyWith(
+                      color: AppColors.brandMain,
                     ),
                   ),
                 ],
               ),
               // 참여자 수
               Container(
-                width: 102,
-                height: 26,
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 decoration: ShapeDecoration(
-                  color: const Color(0xFFF7F7F7),
+                  color: AppColors.grey4,
                   shape: RoundedRectangleBorder(
-                    side: const BorderSide(width: 1, color: Color(0xFFEEEEEE)),
+                    side: const BorderSide(width: 1, color: AppColors.grey3),
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
                 child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: const [
-                    SizedBox(width: 12, height: 12),
-                    Expanded(
-                      child: Text(
-                        '1,842명 참여',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xFF111111),
-                        ),
+                    Icon(Icons.bar_chart, color: AppColors.grey1, size: 12),
+                    SizedBox(width: 2),
+                    Text(
+                      '1,842명 참여',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF111111),
                       ),
                     ),
                   ],

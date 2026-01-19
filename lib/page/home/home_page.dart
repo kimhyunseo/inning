@@ -58,7 +58,21 @@ class _HomePageState extends ConsumerState<HomePage> {
         ],
       ),
 
-      body: Align(alignment: const Alignment(0, -0.3), child: card),
+      bottomSheet: state.locationState == HomeLocationState.insideStadium
+          ? SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(16).copyWith(bottom: 32),
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: const Text("입장하기"),
+                ),
+              ),
+            )
+          : null,
+
+      body: state.locationState == HomeLocationState.insideStadium
+          ? card
+          : Align(alignment: const Alignment(0, -0.3), child: card),
     );
   }
 }
