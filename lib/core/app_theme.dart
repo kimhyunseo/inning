@@ -23,28 +23,28 @@ class AppTheme {
     ),
 
     // --- AppBar Theme ---
-    appBarTheme: const AppBarTheme(
+    appBarTheme: AppBarTheme(
       backgroundColor: AppColors.white,
       foregroundColor: AppColors.black,
       elevation: 0,
-      titleTextStyle: AppTextStyles.titlePrimary20w600,
+      titleTextStyle: AppTextStyles.titlePrimary20w600.copyWith(
+        color: AppColors.black,
+      ),
+      iconTheme: IconThemeData(color: AppColors.grey1),
       centerTitle: true,
     ),
 
     // --- Button Theme (ElevatedButton) ---
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        // 배경을 브랜드 메인 컬러(#4F76A8)로 설정
         backgroundColor: AppColors.brandMain,
         foregroundColor: AppColors.white,
         disabledBackgroundColor: AppColors.grey2,
         disabledForegroundColor: AppColors.white,
-        elevation: 0,
-        minimumSize: const Size(double.infinity, 52), // 기본 버튼 높이
+        minimumSize: const Size(double.infinity, 52),
         textStyle: AppTextStyles.bodyPrimary16w600,
-        // 보더 레디우스 서큘러를 4로 설정
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-      ),
+      ).copyWith(elevation: WidgetStateProperty.all(0)),
     ),
 
     // --- Input Decoration ---
