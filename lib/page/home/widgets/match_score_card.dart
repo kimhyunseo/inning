@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:inning/core/app_color.dart';
 import 'package:inning/core/app_shadow.dart';
 import 'package:inning/core/fonts.dart';
+import 'package:inning/core/model/game_match.dart';
+import 'package:inning/core/model/team.dart';
 import 'package:inning/page/home/widgets/inning_badge.dart';
 
 class MatchScoreCard extends StatelessWidget {
-  const MatchScoreCard({super.key});
+  final GameMatch match;
+
+  const MatchScoreCard({super.key, required this.match});
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +24,10 @@ class MatchScoreCard extends StatelessWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          _MatchHeader(),
+        children: [
+          _MatchHeader(inning: match.inning, inningHalf: match.inningHalf),
           SizedBox(height: 16),
-          _MatchScoreRow(),
+          _MatchScoreRow(match: match),
         ],
       ),
     );
@@ -31,7 +35,10 @@ class MatchScoreCard extends StatelessWidget {
 }
 
 class _MatchHeader extends StatelessWidget {
-  const _MatchHeader();
+  final InningHalf inningHalf;
+  final int inning;
+
+  const _MatchHeader({required this.inning, required this.inningHalf});
 
   @override
   Widget build(BuildContext context) {
@@ -44,47 +51,49 @@ class _MatchHeader extends StatelessWidget {
             color: AppColors.grey1,
           ),
         ),
-        InningBadge(half: "말"),
+        InningBadge(
+          inning: inning,
+          half: inningHalf == InningHalf.top ? "초" : "말",
+        ),
       ],
     );
   }
 }
 
 class _MatchScoreRow extends StatelessWidget {
-  const _MatchScoreRow();
+  final GameMatch match;
+
+  const _MatchScoreRow({required this.match});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: const [
-        _TeamColumn(teamName: 'LG 트윈스', isHome: true),
-        _ScoreText(homeScore: 3, awayScore: 1),
-        _TeamColumn(teamName: '롯데 자이언츠', isHome: false),
+      children: [
+        _TeamColumn(team: match.homeTeam, isHome: true),
+        _ScoreText(homeScore: match.homeScore, awayScore: match.awayScore),
+        _TeamColumn(team: match.awayTeam, isHome: false),
       ],
     );
   }
 }
 
 class _TeamColumn extends StatelessWidget {
-  final String teamName;
+  final Team team;
   final bool isHome;
 
-  const _TeamColumn({required this.teamName, required this.isHome});
+  const _TeamColumn({required this.team, required this.isHome});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          width: 80,
-          height: 60,
-          decoration: BoxDecoration(
-            color: AppColors.brandPopUp,
-            borderRadius: BorderRadius.circular(8),
-          ),
+        Image.asset(
+          team.emblemAsset,
+          width: 100,
+          height: 80,
+          fit: BoxFit.contain,
         ),
-        const SizedBox(height: 4),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
           decoration: BoxDecoration(
@@ -99,7 +108,7 @@ class _TeamColumn extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 4),
-        Text(teamName, style: AppTextStyles.bodyPrimary16w600),
+        Text(team.name, style: AppTextStyles.bodyPrimary16w600),
       ],
     );
   }

@@ -1,28 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:inning/core/app_color.dart';
 import 'package:inning/core/fonts.dart';
+import 'package:inning/core/model/Stadium.dart';
 
 class StadiumLiveHeader extends StatelessWidget {
-  const StadiumLiveHeader({super.key});
+  final Stadium stadium;
+
+  const StadiumLiveHeader({super.key, required this.stadium});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 250,
+      height: 270,
       width: double.infinity,
       clipBehavior: Clip.antiAlias,
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(24),
-          bottomRight: Radius.circular(24),
+          bottomLeft: Radius.circular(30),
+          bottomRight: Radius.circular(30),
         ),
       ),
       child: Stack(
         children: [
           /// background image
           Positioned.fill(
-            child: Image.network(
-              'https://picsum.photos/600/400',
+            child: Image.asset(
+              stadium.imageAsset,
               fit: BoxFit.cover,
               alignment: Alignment.topCenter,
             ),
@@ -35,7 +38,10 @@ class StadiumLiveHeader extends StatelessWidget {
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [Colors.transparent, Colors.black87],
+                  colors: [
+                    Colors.transparent,
+                    Colors.black.withValues(alpha: 0.8),
+                  ],
                 ),
               ),
             ),
@@ -47,11 +53,11 @@ class StadiumLiveHeader extends StatelessWidget {
             bottom: 24,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 _LiveMatchBadge(),
                 SizedBox(height: 4),
                 Text(
-                  '잠실 야구장',
+                  stadium.name,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 32,

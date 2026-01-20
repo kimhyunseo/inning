@@ -3,9 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inning/core/app_color.dart';
 import 'package:inning/core/app_shadow.dart';
 import 'package:inning/core/fonts.dart';
+import 'package:inning/core/model/game_match.dart';
 
 class PredictionCard extends ConsumerWidget {
-  const PredictionCard({super.key});
+  final GameMatch match;
+  const PredictionCard({super.key, required this.match});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -76,7 +78,7 @@ class PredictionCard extends ConsumerWidget {
           // 팀 선택
           Row(
             children: [
-              _TeamBox(teamName: 'LG 트윈스'),
+              _TeamBox(teamName: match.homeTeam.name),
               const SizedBox(width: 8),
               const Text(
                 'VS',
@@ -88,7 +90,7 @@ class PredictionCard extends ConsumerWidget {
                 ),
               ),
               const SizedBox(width: 8),
-              _TeamBox(teamName: '롯데 자이언츠'),
+              _TeamBox(teamName: match.awayTeam.name),
             ],
           ),
           const SizedBox(height: 20),
