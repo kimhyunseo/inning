@@ -67,7 +67,17 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/teams
+    - assets/images/teams/
+    - assets/images/teams/doosan_bears/
+    - assets/images/teams/hanwha_eagles/
+    - assets/images/teams/kia_tigers/
+    - assets/images/teams/kiwoom_heroes/
+    - assets/images/teams/kt_wiz/
+    - assets/images/teams/lg_twins/
+    - assets/images/teams/lotte_giants/
+    - assets/images/teams/nc_dinos/
+    - assets/images/teams/samsung_lions/
+    - assets/images/teams/ssg_landers/
 
   fonts:
     - family: Pretendard

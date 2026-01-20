@@ -1,18 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:inning/core/app_color.dart';
 import 'package:inning/core/fonts.dart';
-import 'package:inning/page/home/home_view_model.dart';
+
+/// 이닝 단계
+enum InningPhase { early, middle, late }
+
+InningPhase getInningPhase(int inning) {
+  if (inning <= 3) return InningPhase.early;
+  if (inning <= 6) return InningPhase.middle;
+  return InningPhase.late;
+}
+
+Color inningColor(InningPhase phase) {
+  switch (phase) {
+    case InningPhase.early:
+      return Colors.green;
+    case InningPhase.middle:
+      return Colors.orange;
+    case InningPhase.late:
+      return AppColors.error;
+  }
+}
 
 class InningBadge extends ConsumerWidget {
-  const InningBadge({super.key, required this.half});
+  const InningBadge({super.key, required this.inning, required this.half});
 
+  final int inning;
   final String half;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(homeViewModelProvider);
-
-    final phase = state.inningPhase;
+    // inning으로 phase 계산
+    final phase = getInningPhase(inning);
     final color = inningColor(phase);
 
     return Container(
@@ -30,7 +50,7 @@ class InningBadge extends ConsumerWidget {
           ),
           const SizedBox(width: 4),
           Text(
-            '${state.currentInning}회$half',
+            '$inning회$half',
             style: AppTextStyles.labelStatus12w500.copyWith(color: color),
           ),
         ],

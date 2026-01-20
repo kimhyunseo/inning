@@ -36,6 +36,7 @@ class _HomePageState extends ConsumerState<HomePage> {
         mainAxisSize: MainAxisSize.min,
         children: [
           FloatingActionButton.small(
+            heroTag: 'permission',
             onPressed: () {
               setState.setPermissionRequired();
             },
@@ -43,6 +44,7 @@ class _HomePageState extends ConsumerState<HomePage> {
           ),
           const SizedBox(height: 8),
           FloatingActionButton.small(
+            heroTag: 'outside',
             onPressed: () {
               setState.setOutsideStadium();
             },
@@ -50,6 +52,7 @@ class _HomePageState extends ConsumerState<HomePage> {
           ),
           const SizedBox(height: 8),
           FloatingActionButton.small(
+            heroTag: 'inside',
             onPressed: () {
               setState.setInsideStadium();
             },
@@ -63,7 +66,16 @@ class _HomePageState extends ConsumerState<HomePage> {
               child: Padding(
                 padding: const EdgeInsets.all(16).copyWith(bottom: 32),
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) {
+                    //       return WelcomePage();
+                    //     },
+                    //   ),
+                    // );
+                  },
                   child: const Text("입장하기"),
                 ),
               ),

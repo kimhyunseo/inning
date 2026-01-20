@@ -6,7 +6,7 @@ class AppTheme {
   static ThemeData lightTheme = ThemeData(
     useMaterial3: true,
     fontFamily: AppTextStyles.fontFamily,
-    scaffoldBackgroundColor: AppColors.white,
+    scaffoldBackgroundColor: AppColors.grey4,
 
     // --- Color Scheme ---
     colorScheme: const ColorScheme(
