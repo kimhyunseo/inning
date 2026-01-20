@@ -3,8 +3,8 @@ import 'package:inning/core/app_color.dart';
 import 'package:inning/core/fonts.dart';
 import 'package:inning/page/welcome/widgets/profile_input_field.dart';
 
-class ProfileSelectField extends StatelessWidget {
-  const ProfileSelectField({super.key});
+class ProfileTeamSelectField extends StatelessWidget {
+  const ProfileTeamSelectField({super.key});
 
   @override
   Widget build(BuildContext context) {
