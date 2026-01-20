@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       //
       theme: AppTheme.lightTheme,
-      home: const ChatPage(),
+      home: ChatPage(),
     );
   }
 }
