@@ -1,9 +1,7 @@
-import 'package:inning/core/model/team.dart';
-
 class User {
   final String id;
   final String? nickname;
-  final Team? favoriteTeam;
+  final String? favoriteTeam;
   final String? profileImage;
 
   User({required this.id, this.nickname, this.favoriteTeam, this.profileImage});
