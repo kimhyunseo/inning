@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:inning/core/app_color.dart';
 import 'package:inning/core/fonts.dart';
+import 'package:inning/page/chat/chat_page.dart';
 import 'package:inning/page/welcome/widgets/profile_card.dart';
-import 'package:inning/page/welcome/widgets/profile_image_picker.dart';
-import 'package:inning/page/welcome/widgets/profile_name_field.dart';
-import 'package:inning/page/welcome/widgets/profile_team_select_field.dart';
 
 class WelcomePage extends StatelessWidget {
   @override
@@ -33,7 +31,19 @@ class WelcomePage extends StatelessWidget {
                 ProfileCard(),
                 SizedBox(height: 250),
                 SafeArea(
-                  child: ElevatedButton(onPressed: () {}, child: Text('입력 완료')),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return ChatPage();
+                          },
+                        ),
+                      );
+                    },
+                    child: Text('입력 완료'),
+                  ),
                 ),
               ],
             ),

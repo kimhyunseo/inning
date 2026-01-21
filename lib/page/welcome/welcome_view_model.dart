@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:inning/model/user.dart';
+import 'package:inning/core/model/user.dart';
 
 class WelcomeState {
   //

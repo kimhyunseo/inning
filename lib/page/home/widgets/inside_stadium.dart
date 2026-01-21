@@ -10,7 +10,7 @@ class InStadium extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currentMatch = mockGameMatches.firstWhere(
-      (match) => match.stadium.id == 'stadium_incheon',
+      (match) => match.stadium.id == 'stadium_suwon',
     );
 
     return SingleChildScrollView(

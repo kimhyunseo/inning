@@ -5,6 +5,7 @@ import 'package:inning/page/home/home_view_model.dart';
 import 'package:inning/page/home/widgets/inside_stadium.dart';
 import 'package:inning/page/home/widgets/location_permission_card.dart';
 import 'package:inning/page/home/widgets/outside_stadium_card.dart';
+import 'package:inning/page/welcome/welcome_page.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -67,14 +68,14 @@ class _HomePageState extends ConsumerState<HomePage> {
                 padding: const EdgeInsets.all(16).copyWith(bottom: 32),
                 child: ElevatedButton(
                   onPressed: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) {
-                    //       return WelcomePage();
-                    //     },
-                    //   ),
-                    // );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return WelcomePage();
+                        },
+                      ),
+                    );
                   },
                   child: const Text("입장하기"),
                 ),

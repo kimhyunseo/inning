@@ -4,8 +4,8 @@ import 'package:inning/page/team_select/team_select_view_model.dart';
 import 'package:inning/page/team_select/widgets/none_team_grid_item.dart';
 import 'package:inning/page/team_select/widgets/team_grid_item.dart';
 
-class SelectePage extends ConsumerWidget {
-  const SelectePage({super.key});
+class SelectPage extends ConsumerWidget {
+  const SelectPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
