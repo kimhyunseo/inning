@@ -3,24 +3,26 @@ import 'package:inning/core/app_color.dart';
 import 'package:inning/core/fonts.dart';
 import 'package:inning/core/model/team.dart';
 
-class TeamGridItem extends StatelessWidget {
-  final Team team;
+class TeamSelectGridItem extends StatelessWidget {
+  final Team? team;
   final bool isSelected;
   final VoidCallback onTap;
 
-  const TeamGridItem({
+  const TeamSelectGridItem({
     super.key,
     required this.team,
     required this.isSelected,
     required this.onTap,
   });
 
+  bool get isNone => team == null;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.all(4),
+        padding: const EdgeInsets.all(4),
         decoration: BoxDecoration(
           color: AppColors.white,
           borderRadius: BorderRadius.circular(4),
@@ -31,11 +33,13 @@ class TeamGridItem extends StatelessWidget {
         ),
         child: Column(
           children: [
-            // 로고 영역
+            // 로고 / 아이콘 영역
             Expanded(
               flex: 3,
               child: Center(
-                child: Image.asset(team.emblemAsset, fit: BoxFit.contain),
+                child: isNone
+                    ? Icon(Icons.block, size: 50, color: AppColors.grey2)
+                    : Image.asset(team!.emblemAsset, fit: BoxFit.contain),
               ),
             ),
 
@@ -44,7 +48,7 @@ class TeamGridItem extends StatelessWidget {
               flex: 1,
               child: Center(
                 child: Text(
-                  team.name,
+                  isNone ? '응원팀 없음' : team!.name,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,

@@ -36,7 +36,7 @@ final mockGameMatches = [
   ),
   GameMatch(
     homeTeam: mockTeams.firstWhere((t) => t.id == 'kt'),
-    awayTeam: mockTeams.firstWhere((t) => t.id == 'lg'),
+    awayTeam: mockTeams.firstWhere((t) => t.id == 'doosan'),
     homeScore: 5,
     awayScore: 3,
     inning: 9,
