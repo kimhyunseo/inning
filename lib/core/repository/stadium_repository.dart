@@ -1,5 +1,5 @@
-import 'package:inning/core/model/stadium.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:inning/core/model/stadium.dart';
 
 class StadiumRepository {
   final FirebaseFirestore firestore;
@@ -7,13 +7,16 @@ class StadiumRepository {
   StadiumRepository({FirebaseFirestore? firestore})
     : firestore = firestore ?? FirebaseFirestore.instance;
 
+  /// 전체 경기장 가져오기
   Future<List<Stadium>> fetchStadiums() async {
-    try {
-      final snapshot = await firestore.collection('stadiums').get();
-      return snapshot.docs.map((doc) => Stadium.fromJson(doc.data())).toList();
-    } catch (e) {
-      print('StadiumRepository fetch error: $e');
-      return [];
-    }
+    final snapshot = await firestore.collection('stadiums').get();
+    return snapshot.docs.map((doc) => Stadium.fromJson(doc.data())).toList();
+  }
+
+  /// ID로 경기장 가져오기
+  Future<Stadium?> fetchStadiumById(String id) async {
+    final doc = await firestore.collection('stadiums').doc(id).get();
+    if (!doc.exists) return null;
+    return Stadium.fromJson(doc.data()!);
   }
 }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inning/core/widgets/common_app_bar.dart';
 import 'package:inning/page/home/home_view_model.dart';
+import 'package:inning/page/home/stadium_view_model.dart';
+import 'package:inning/page/home/team_view_model.dart';
 import 'package:inning/page/home/widgets/inside_stadium.dart';
 import 'package:inning/page/home/widgets/location_permission_card.dart';
 import 'package:inning/page/home/widgets/outside_stadium_card.dart';
@@ -58,6 +60,52 @@ class _HomePageState extends ConsumerState<HomePage> {
               setState.setInsideStadium();
             },
             child: const Text('안'),
+          ),
+          const SizedBox(height: 16),
+          //임시 경기장 선택 버튼
+          FloatingActionButton.small(
+            heroTag: 'stadium',
+            onPressed: () async {
+              final stadiumVM = ref.read(stadiumViewModelProvider.notifier);
+              final teamVM = ref.read(teamViewModelProvider.notifier);
+
+              // 데이터를 먼저 가져오기
+              await Future.wait([stadiumVM.loadStadiums(), teamVM.loadTeams()]);
+
+              final stadiumState = ref.read(stadiumViewModelProvider);
+
+              if (stadiumState.stadiums.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('경기장 데이터를 불러오지 못했습니다.')),
+                );
+                return;
+              }
+
+              if (mounted) {}
+              // 가져온 데이터로 BottomSheet 열기
+              showModalBottomSheet(
+                context: context,
+                builder: (ctx) {
+                  final stadiums = stadiumState.stadiums;
+                  return ListView(
+                    children: stadiums
+                        .map(
+                          (s) => ListTile(
+                            title: Text(s.name),
+                            onTap: () {
+                              ref
+                                  .read(stadiumViewModelProvider.notifier)
+                                  .setCurrentStadium(s);
+                              Navigator.pop(ctx);
+                            },
+                          ),
+                        )
+                        .toList(),
+                  );
+                },
+              );
+            },
+            child: const Icon(Icons.sports_baseball),
           ),
         ],
       ),
