@@ -25,7 +25,9 @@ class TeamSelectPage extends ConsumerWidget {
             height: 52,
             child: ElevatedButton(
               onPressed: () {
+                ref.read(teamSelectProvider.notifier).confirmSelected();
                 Navigator.pop(context);
+                // 업데이트팀 으로 상태업데이트, 선택이 된 팀을 객체로 넘겨주어
               },
               child: const Text('선택 완료'),
             ),

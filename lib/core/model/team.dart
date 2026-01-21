@@ -10,4 +10,13 @@ class Team {
     required this.logoAsset,
     required this.emblemAsset,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'logoAsset': logoAsset,
+      'emblemAsset': emblemAsset,
+    };
+  }
 }
