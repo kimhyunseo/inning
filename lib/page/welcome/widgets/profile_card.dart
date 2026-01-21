@@ -39,7 +39,7 @@ class ProfileCard extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return SelectPage();
+                    return TeamSelectPage();
                   },
                 ),
               );
