@@ -1,4 +1,4 @@
-import 'package:inning/core/model/Stadium.dart';
+import 'package:inning/core/model/stadium.dart';
 import 'package:inning/core/model/team.dart';
 
 enum InningHalf {
