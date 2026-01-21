@@ -14,13 +14,12 @@ class WelcomePage extends ConsumerStatefulWidget {
 }
 
 class WelcomePageState extends ConsumerState<WelcomePage> {
-  final formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      behavior: HitTestBehavior.opaque,
+      // behavior: HitTestBehavior.opaque,
       onTap: () {
+        print('온탭');
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
@@ -28,27 +27,25 @@ class WelcomePageState extends ConsumerState<WelcomePage> {
         appBar: AppBar(
           title: Text('프로필', style: AppTextStyles.titlePrimary20w600),
         ),
-        body: Form(
-          key: formKey,
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  SizedBox(height: 61),
-                  Text(
-                    '이 프로필로 채팅방에 입장할까요?',
-                    style: AppTextStyles.titlePrimary20w600,
-                  ),
-                  SizedBox(height: 77),
-                  ProfileCard(),
-                  SizedBox(height: 250),
-                  SafeArea(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        // 수정
-                        ref.read(welcomeProvider.notifier).registerUser();
-                        Navigator.push(
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              children: [
+                SizedBox(height: 61),
+                Text(
+                  '이 프로필로 채팅방에 입장할까요?',
+                  style: AppTextStyles.titlePrimary20w600,
+                ),
+                SizedBox(height: 77),
+                ProfileCard(),
+                SizedBox(height: 250),
+                SafeArea(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // 수정
+                      ref.read(welcomeProvider.notifier).registerUser(); 
+                      Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) {
@@ -56,12 +53,11 @@ class WelcomePageState extends ConsumerState<WelcomePage> {
                             },
                           ),
                         );
-                      },
-                      child: Text('입력 완료'),
-                    ),
+                    },
+                    child: Text('입력 완료'),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

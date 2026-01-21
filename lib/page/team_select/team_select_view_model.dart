@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inning/core/data/mock/team_mock.dart';
 import 'package:inning/core/model/team.dart';
+import 'package:inning/page/welcome/welcome_view_model.dart';
 import 'package:inning/core/repository/team_repository.dart';
 
 class TeamSelectState {
@@ -43,6 +44,16 @@ class TeamSelectNotifier extends Notifier<TeamSelectState> {
 
   void selectNone() {
     state = state.copyWith(selectedTeamId: null);
+  }
+
+  void confirmSelected() {
+    final selectedId = state.selectedTeamId;
+
+    final selectedTeam = selectedId != null
+        ? state.teams.firstWhere((e) => e.id == selectedId)
+        : null;
+
+    ref.read(welcomeProvider.notifier).updateFavoriteTeam(selectedTeam);
   }
 }
 

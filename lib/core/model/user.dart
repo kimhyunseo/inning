@@ -20,7 +20,7 @@ class User {
     return {
       'id': id,
       'nickname': nickname,
-      'favoriteTeam': favoriteTeam,
+      'favoriteTeam': favoriteTeam?.toJson(),
       'profileImage': profileImage,
     };
   }

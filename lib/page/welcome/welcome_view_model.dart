@@ -26,7 +26,7 @@ class WelcomeViewModel extends Notifier<User> {
   }
 
   // 상태 업데이트
-  void updateFavoriteTeam(Team favoriteTeam) {
+  void updateFavoriteTeam(Team? favoriteTeam) {
     state = User(
       id: state.id,
       nickname: state.nickname,

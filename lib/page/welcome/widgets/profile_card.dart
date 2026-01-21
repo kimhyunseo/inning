@@ -33,19 +33,7 @@ class ProfileCard extends StatelessWidget {
           ProfileNameField(),
           SizedBox(height: 16),
           // 구단선택 컨테이너
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return TeamSelectPage();
-                  },
-                ),
-              );
-            },
-            child: ProfileTeamSelectField(),
-          ),
+          ProfileTeamSelectField(),
         ],
       ),
     );

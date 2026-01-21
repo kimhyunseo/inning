@@ -4,7 +4,6 @@ import 'package:inning/core/app_color.dart';
 import 'package:inning/core/fonts.dart';
 import 'package:inning/page/team_select/team_select_page.dart';
 import 'package:inning/page/welcome/welcome_view_model.dart';
-import 'package:inning/page/welcome/widgets/profile_input_field.dart';
 
 class ProfileTeamSelectField extends ConsumerWidget {
   const ProfileTeamSelectField({super.key});
@@ -21,19 +20,24 @@ class ProfileTeamSelectField extends ConsumerWidget {
           MaterialPageRoute(builder: (context) => TeamSelectPage()),
         );
       },
-      child: ProfileInputField(
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.grey4,
+          borderRadius: BorderRadius.circular(4),
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             ClipRRect(
               borderRadius: BorderRadiusGeometry.circular(20 / 2),
-              child: Image.network('https://picsum.photos/20'),
+              child: selectedTeam != null
+                  ? Image.asset(selectedTeam.logoAsset, width: 24, height: 24)
+                  : Icon(Icons.error_outline, size: 20, color: AppColors.grey2),
             ),
-            // Spacer(),
             Text(
-              '구단',
+              selectedTeam?.name ?? '없음',
               style: AppTextStyles.bodyPrimary16w500.copyWith(
-                color: AppColors.grey1,
+                color: selectedTeam != null ? AppColors.black : AppColors.grey1,
               ),
             ),
             Icon(
