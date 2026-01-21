@@ -32,7 +32,7 @@ class MyMessageWidget extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 2, left: 4),
               child: Text(
-                formatTime(message.time),
+                formatTime(message.createdAt),
                 style: AppTextStyles.labelChat10w500.copyWith(
                   color: AppColors.brandHintText,
                 ),

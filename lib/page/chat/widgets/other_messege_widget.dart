@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:inning/core/app_color.dart';
 import 'package:inning/core/fonts.dart';
 import 'package:inning/core/model/chat_message.dart';
+import 'package:inning/core/model/team.dart';
+import 'package:inning/core/model/user.dart';
 import 'package:inning/core/utils/team_util.dart';
 import 'package:inning/core/utils/time_util.dart';
 
@@ -10,17 +12,26 @@ class OtherMessageWidget extends StatelessWidget {
   final ChatMessage message;
   final bool isFirstInGroup;
   final bool isLastInGroup;
+  final Map<String, User> usersMap; // 유저 정보
+  final Map<String, Team> teamsMap; // 팀 정보
 
   const OtherMessageWidget({
     super.key,
     required this.message,
     required this.isFirstInGroup,
     required this.isLastInGroup,
+    required this.usersMap,
+    required this.teamsMap,
   });
 
   @override
   Widget build(BuildContext context) {
-    final team = getTeamById(message.sender.favoriteTeam);
+    //
+    final sender = usersMap[message.senderId];
+    final team = sender?.favoriteTeam != null
+        ? teamsMap[sender!.favoriteTeam!]
+        : null;
+
     return Padding(
       padding: EdgeInsets.only(
         left: 3,
@@ -29,6 +40,7 @@ class OtherMessageWidget extends StatelessWidget {
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Visibility(
             visible: isFirstInGroup,
@@ -42,10 +54,10 @@ class OtherMessageWidget extends StatelessWidget {
                 CircleAvatar(
                   radius: 25,
                   backgroundColor: AppColors.brandHintText,
-                  backgroundImage: message.sender.profileImage != null
-                      ? AssetImage(message.sender.profileImage!)
+                  backgroundImage: sender?.profileImage != null
+                      ? AssetImage(sender!.profileImage!)
                       : null,
-                  child: message.sender.profileImage == null
+                  child: sender?.profileImage == null
                       ? Icon(
                           Icons.person,
                           size: 40,
@@ -82,9 +94,9 @@ class OtherMessageWidget extends StatelessWidget {
               children: [
                 if (isFirstInGroup)
                   Padding(
-                    padding: const EdgeInsets.only(left: 16),
+                    padding: const EdgeInsets.only(left: 16, bottom: 4),
                     child: Text(
-                      message.sender.nickname ?? '익명',
+                      message.senderNickname,
                       style: AppTextStyles.labelStatus12w500.copyWith(
                         color: AppColors.grey1,
                       ),
@@ -109,7 +121,7 @@ class OtherMessageWidget extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 2, right: 4),
                         child: Text(
-                          formatTime(message.time),
+                          formatTime(message.createdAt),
                           style: AppTextStyles.labelChat10w500.copyWith(
                             color: AppColors.brandHintText,
                           ),
