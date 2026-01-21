@@ -5,7 +5,6 @@ import 'package:inning/core/fonts.dart';
 import 'package:inning/core/model/chat_message.dart';
 import 'package:inning/core/model/team.dart';
 import 'package:inning/core/model/user.dart';
-import 'package:inning/core/utils/team_util.dart';
 import 'package:inning/core/utils/time_util.dart';
 
 class OtherMessageWidget extends StatelessWidget {
@@ -29,7 +28,7 @@ class OtherMessageWidget extends StatelessWidget {
     //
     final sender = usersMap[message.senderId];
     final team = sender?.favoriteTeam != null
-        ? teamsMap[sender!.favoriteTeam!]
+        ? teamsMap[sender!.favoriteTeam!.id]
         : null;
 
     return Padding(
