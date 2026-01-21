@@ -18,7 +18,7 @@ class ProfileTeamSelectField extends ConsumerWidget {
         // ref.read(welcomeProvider.notifier).updateFavoriteTeam();
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => SelectePage()),
+          MaterialPageRoute(builder: (context) => TeamSelectPage()),
         );
       },
       child: ProfileInputField(
