@@ -6,6 +6,14 @@ class ChatTapNotice extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      width: double.infinity,
+      height: 50,
+      margin: EdgeInsets.fromLTRB(12, 12, 12, 0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(4),
+        color: Colors.white,
+      ),
+    );
   }
 }
