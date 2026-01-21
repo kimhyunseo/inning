@@ -48,6 +48,14 @@ class WelcomePageState extends ConsumerState<WelcomePage> {
                       onPressed: () {
                         // 수정
                         ref.read(welcomeProvider.notifier).registerUser();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return ChatPage();
+                            },
+                          ),
+                        );
                       },
                       child: Text('입력 완료'),
                     ),

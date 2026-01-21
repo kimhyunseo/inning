@@ -6,41 +6,28 @@ enum HomeLocationState { permissionRequired, outsideStadium, insideStadium }
 /// 전체 상태
 class HomeStateData {
   final HomeLocationState locationState;
-  final int currentInning;
 
-  HomeStateData({required this.locationState, required this.currentInning});
+  HomeStateData({required this.locationState});
 }
 
 /// Notifier
 class HomeNotifier extends Notifier<HomeStateData> {
   @override
   HomeStateData build() {
-    return HomeStateData(
-      locationState: HomeLocationState.permissionRequired,
-      currentInning: 1,
-    );
+    return HomeStateData(locationState: HomeLocationState.permissionRequired);
   }
 
   // 위치 상태 변경
   void setPermissionRequired() {
-    state = HomeStateData(
-      locationState: HomeLocationState.permissionRequired,
-      currentInning: state.currentInning,
-    );
+    state = HomeStateData(locationState: HomeLocationState.permissionRequired);
   }
 
   void setOutsideStadium() {
-    state = HomeStateData(
-      locationState: HomeLocationState.outsideStadium,
-      currentInning: state.currentInning,
-    );
+    state = HomeStateData(locationState: HomeLocationState.outsideStadium);
   }
 
   void setInsideStadium() {
-    state = HomeStateData(
-      locationState: HomeLocationState.insideStadium,
-      currentInning: state.currentInning,
-    );
+    state = HomeStateData(locationState: HomeLocationState.insideStadium);
   }
 }
 

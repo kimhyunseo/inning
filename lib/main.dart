@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inning/core/app_theme.dart';
 import 'package:inning/firebase_options.dart';
 import 'package:inning/page/home/home_page.dart';
-import 'package:inning/page/welcome/welcome_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

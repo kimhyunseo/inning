@@ -1,50 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inning/core/data/mock/chat_mock.dart';
-import 'package:inning/core/data/mock/team_mock.dart';
+
 import 'package:inning/core/data/mock/user_mock.dart';
-import 'package:inning/core/model/team.dart';
-import 'package:inning/core/model/user.dart';
 import 'package:inning/page/chat/widgets/my_message_widget.dart';
 import 'package:inning/page/chat/widgets/other_messege_widget.dart';
+import 'package:inning/page/home/team_view_model.dart';
 
-class ChatTapListView extends StatefulWidget {
+class ChatTapListView extends ConsumerWidget {
   const ChatTapListView({super.key});
-
   @override
-  State<ChatTapListView> createState() => _ChatTapListViewState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final teamState = ref.watch(teamViewModelProvider);
 
-class _ChatTapListViewState extends State<ChatTapListView> {
-  final scrollController = ScrollController();
+    if (teamState.isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    final users = createMockUsers(teamState.teams);
+    final usersMap = {for (var user in users) user.id: user};
+    // TODO: id 바꿔줘서 나인지 바꾸기
+    final currentUser = users.firstWhere((u) => u.id == 'user1');
 
-  final Map<String, User> usersMap = {
-    for (var user in mockUsers) user.id: user,
-  };
+    final messages = createMockMessages(users, currentUser);
 
-  final Map<String, Team> teamsMap = {
-    for (var team in mockTeams) team.id: team,
-  };
+    final teamsMap = {for (var team in teamState.teams) team.id: team};
 
-  @override
-  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(right: 12, left: 12),
       child: ListView.builder(
-        controller: scrollController,
         reverse: true,
-        itemCount: mockMessages.length,
+        itemCount: messages.length,
 
         itemBuilder: (context, index) {
-          final reversedIndex = mockMessages.length - 1 - index;
-          final message = mockMessages[reversedIndex];
+          final reversedIndex = messages.length - 1 - index;
+          final message = messages[reversedIndex];
 
           final isFirstInGroup =
               reversedIndex == 0 ||
-              mockMessages[reversedIndex - 1].senderId != message.senderId;
+              messages[reversedIndex - 1].senderId != message.senderId;
 
           final isLastInGroup =
-              reversedIndex == mockMessages.length - 1 ||
-              mockMessages[reversedIndex + 1].senderId != message.senderId;
+              reversedIndex == messages.length - 1 ||
+              messages[reversedIndex + 1].senderId != message.senderId;
 
           if (message.senderId == currentUser.id) {
             return MyMessageWidget(

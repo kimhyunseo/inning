@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inning/core/app_color.dart';
 import 'package:inning/core/fonts.dart';
-import 'package:inning/core/model/Stadium.dart';
+import 'package:inning/core/model/stadium.dart';
 
 class StadiumLiveHeader extends StatelessWidget {
   final Stadium stadium;
