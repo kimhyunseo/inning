@@ -5,7 +5,6 @@ import 'package:inning/core/fonts.dart';
 import 'package:inning/core/model/chat_message.dart';
 import 'package:inning/core/model/team.dart';
 import 'package:inning/core/model/user.dart';
-import 'package:inning/core/utils/team_util.dart';
 import 'package:inning/core/utils/time_util.dart';
 
 class OtherMessageWidget extends StatelessWidget {
