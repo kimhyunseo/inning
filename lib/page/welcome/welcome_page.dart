@@ -14,6 +14,8 @@ class WelcomePage extends ConsumerStatefulWidget {
 }
 
 class WelcomePageState extends ConsumerState<WelcomePage> {
+  final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -38,21 +40,25 @@ class WelcomePageState extends ConsumerState<WelcomePage> {
                   style: AppTextStyles.titlePrimary20w600,
                 ),
                 SizedBox(height: 77),
-                ProfileCard(),
+                Form(
+                  key: formKey,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  child: ProfileCard(formKey: formKey),
+                ),
                 SizedBox(height: 250),
                 SafeArea(
                   child: ElevatedButton(
                     onPressed: () {
                       // 수정
-                      ref.read(welcomeProvider.notifier).registerUser(); 
+                      // ref.read(welcomeProvider.notifier).registerUser();
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return ChatPage();
-                            },
-                          ),
-                        );
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return ChatPage();
+                          },
+                        ),
+                      );
                     },
                     child: Text('입력 완료'),
                   ),
