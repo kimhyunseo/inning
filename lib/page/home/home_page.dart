@@ -7,6 +7,7 @@ import 'package:inning/page/home/team_view_model.dart';
 import 'package:inning/page/home/widgets/inside_stadium.dart';
 import 'package:inning/page/home/widgets/location_permission_card.dart';
 import 'package:inning/page/home/widgets/outside_stadium_card.dart';
+import 'package:inning/page/my/my_page.dart';
 import 'package:inning/page/welcome/welcome_page.dart';
 
 class HomePage extends ConsumerStatefulWidget {
@@ -47,7 +48,12 @@ class _HomePageState extends ConsumerState<HomePage> {
       appBar: CommonAppBar(
         title: "Home",
         actionIcon: Icons.person,
-        onActionTap: () {},
+        onActionTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => MyPage()),
+          );
+        },
       ),
 
       floatingActionButton: Column(

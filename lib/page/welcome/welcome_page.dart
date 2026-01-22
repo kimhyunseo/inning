@@ -37,7 +37,7 @@ class WelcomePageState extends ConsumerState<WelcomePage> {
               width: double.infinity,
               height: 52,
               child: ElevatedButton(
-                onPressed: () async {
+                onPressed: () {
                   final stadiumState = ref.read(stadiumViewModelProvider);
                   final currentStadium = stadiumState.currentStadium;
 
