@@ -39,8 +39,16 @@ class _HomePageState extends ConsumerState<HomePage> {
           ref.read(homeViewModelProvider.notifier).requestLocationAndAdress();
         },
       ),
-      HomeLocationState.outsideStadium => const OutsideStadiumCard(),
+      HomeLocationState.outsideStadium => OutsideStadiumCard(
+        address: state.adress,
+        // 비동기 작업 실패 시 다시시도 버튼 제공
+        onRetry: () =>
+            ref.read(homeViewModelProvider.notifier).requestLocationAndAdress(),
+      ),
       HomeLocationState.insideStadium => const InStadium(),
+      HomeLocationState.locationError => Center(
+        child: Column(children: [Text('위치 정보를 불러올 수 없습니다.')]),
+      ),
     };
 
     return Scaffold(

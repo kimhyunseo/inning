@@ -4,7 +4,11 @@ import 'package:inning/core/app_shadow.dart';
 import 'package:inning/core/fonts.dart';
 
 class OutsideStadiumCard extends StatelessWidget {
-  const OutsideStadiumCard({super.key});
+  const OutsideStadiumCard({super.key, this.address, required this.onRetry});
+
+  final String? address;
+  // '위치파악불가' 콜백함수 추가
+  final VoidCallback onRetry;
 
   @override
   Widget build(BuildContext context) {
@@ -66,8 +70,9 @@ class OutsideStadiumCard extends StatelessWidget {
                                 backgroundColor: AppColors.error,
                               ),
                               SizedBox(width: 8),
+                              // 받아온 주소가 있으면 표시, 없으면 기본값
                               Text(
-                                '현재 위치: 서울 서초구',
+                                '현재 위치: ${address ?? '위치 파악 불가'}',
                                 style: AppTextStyles.labelStatus12w500.copyWith(
                                   color: AppColors.brandPoint,
                                 ),
