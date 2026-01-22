@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:inning/core/utils/user_util.dart';
 import 'package:inning/core/widgets/common_app_bar.dart';
+import 'package:inning/page/chat/chat_page.dart';
 import 'package:inning/page/home/home_view_model.dart';
 import 'package:inning/page/home/stadium_view_model.dart';
 import 'package:inning/page/home/team_view_model.dart';
@@ -139,15 +141,32 @@ class _HomePageState extends ConsumerState<HomePage> {
               child: Padding(
                 padding: const EdgeInsets.all(16).copyWith(bottom: 32),
                 child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return WelcomePage();
-                        },
-                      ),
-                    );
+                  onPressed: () async {
+                    // 유저 등록 여부 확인
+                    final bool registered = await UserUtil.isRegistered();
+
+                    // 2. 비동기 작업 직후, 'context'가 여전히 유효한지 확인
+                    if (!context.mounted) return;
+
+                    if (registered) {
+                      // 3. 등록된 유저라면 챗 페이지로 이동
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChatPage(
+                            currentStadium: stadiumState.currentStadium!,
+                          ),
+                        ),
+                      );
+                    } else {
+                      // 4. 등록되지 않은 유저라면 웰컴 페이지로 이동
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const WelcomePage(),
+                        ),
+                      );
+                    }
                   },
                   child: const Text("입장하기"),
                 ),
