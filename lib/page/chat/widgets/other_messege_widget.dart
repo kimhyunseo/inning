@@ -32,21 +32,13 @@ class OtherMessageWidget extends StatelessWidget {
         : null;
 
     return Padding(
-      padding: EdgeInsets.only(
-        left: 3,
-        top: isFirstInGroup ? 8 : 0,
-        bottom: isLastInGroup ? 8 : 0,
-      ),
+      padding: EdgeInsets.only(left: 3, bottom: 4),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Visibility(
-            visible: isFirstInGroup,
-            maintainSize: true,
-            maintainAnimation: true,
-            maintainState: true,
-            child: Padding(
+          if (isFirstInGroup)
+            Padding(
               padding: const EdgeInsets.only(top: 12),
               child: Stack(
                 clipBehavior: Clip.none,
@@ -86,8 +78,9 @@ class OtherMessageWidget extends StatelessWidget {
                     ),
                 ],
               ),
-            ),
-          ),
+            )
+          else
+            const SizedBox(width: 50),
 
           Flexible(
             child: Column(

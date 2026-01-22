@@ -23,8 +23,16 @@ class _ChatPageState extends ConsumerState<ChatPage> {
   @override
   void initState() {
     super.initState();
+
     _controller = TextEditingController();
     _focusNode = FocusNode();
+
+    // TODO: 구독 시작 (안되면 고치기)
+    Future.microtask(() {
+      ref
+          .read(chatViewModelProvider.notifier)
+          .watchChat(widget.currentStadium.id);
+    });
   }
 
   @override
@@ -36,7 +44,17 @@ class _ChatPageState extends ConsumerState<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(chatViewModelProvider);
+    void _onSubmit() {
+      if (_controller.text.trim().isNotEmpty) {
+        final vm = ref.read(chatViewModelProvider.notifier);
+        vm.sendMessage(
+          stadiumId: widget.currentStadium.id,
+          content: _controller.text,
+        );
+        // 전송 후 입력칸 비움
+        _controller.clear();
+      }
+    }
 
     return GestureDetector(
       // 빈 화면 터치시 키보드 사라짐
@@ -99,11 +117,7 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                     // 오른쪽 전송아이콘
                     suffixIcon: IconButton(
                       onPressed: () {
-                        if (_controller.text.trim().isNotEmpty) {
-                          print('전송: ${_controller.text}');
-                          // 전송 후 입력칸 비움
-                          _controller.clear();
-                        }
+                        _onSubmit();
                       },
                       icon: Icon(Icons.send, color: AppColors.brandPoint),
                     ),
@@ -111,8 +125,7 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                   // 엔터버튼을 전송 아이콘으로 변경
                   textInputAction: TextInputAction.newline,
                   onFieldSubmitted: (value) {
-                    print('전송: $value');
-                    _controller.clear();
+                    _onSubmit();
                   },
                 ),
               ),

@@ -9,7 +9,7 @@ class ChatRepository {
         .collection('chatrooms')
         .doc(stadiumId)
         .collection('messages')
-        .orderBy('createdAt', descending: true)
+        .orderBy('createdAt', descending: false)
         .snapshots()
         .map(
           (snapshot) => snapshot.docs.map((doc) {

@@ -14,6 +14,8 @@ class WelcomePage extends ConsumerStatefulWidget {
 }
 
 class WelcomePageState extends ConsumerState<WelcomePage> {
+  final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -35,7 +37,7 @@ class WelcomePageState extends ConsumerState<WelcomePage> {
               width: double.infinity,
               height: 52,
               child: ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   final stadiumState = ref.read(stadiumViewModelProvider);
                   final currentStadium = stadiumState.currentStadium;
 
@@ -72,7 +74,7 @@ class WelcomePageState extends ConsumerState<WelcomePage> {
                   style: AppTextStyles.titlePrimary20w600,
                 ),
                 SizedBox(height: 77),
-                ProfileCard(),
+                ProfileCard(formKey: formKey),
               ],
             ),
           ),
