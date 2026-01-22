@@ -24,7 +24,7 @@ class UserRepository {
             .set(updateUser.toJson()),
       ]);
     } catch (e) {
-      rethrow; // 뷰모델에서도 오류 알수 있게
+      print('레포지토리 에러 ${e}');
     }
   }
 }
