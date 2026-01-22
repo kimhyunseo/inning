@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:inning/core/app_color.dart';
 import 'package:inning/core/fonts.dart';
 import 'package:inning/page/welcome/welcome_view_model.dart';
 import 'package:inning/page/chat/chat_page.dart';
@@ -23,10 +22,36 @@ class WelcomePageState extends ConsumerState<WelcomePage> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        backgroundColor: AppColors.grey4,
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: Text('프로필', style: AppTextStyles.titlePrimary20w600),
         ),
+
+        bottomNavigationBar: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(16).copyWith(bottom: 0),
+            child: SizedBox(
+              width: double.infinity,
+              height: 52,
+              child: ElevatedButton(
+                onPressed: () {
+                  // 수정
+                  ref.read(welcomeProvider.notifier).registerUser();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return ChatPage();
+                      },
+                    ),
+                  );
+                },
+                child: const Text("입력 완료"),
+              ),
+            ),
+          ),
+        ),
+
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -39,24 +64,6 @@ class WelcomePageState extends ConsumerState<WelcomePage> {
                 ),
                 SizedBox(height: 77),
                 ProfileCard(),
-                SizedBox(height: 250),
-                SafeArea(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // 수정
-                      ref.read(welcomeProvider.notifier).registerUser(); 
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return ChatPage();
-                            },
-                          ),
-                        );
-                    },
-                    child: Text('입력 완료'),
-                  ),
-                ),
               ],
             ),
           ),

@@ -15,13 +15,7 @@ class ProfileCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(4),
-        boxShadow: [
-          BoxShadow(
-            color: Color(0x3FB2B2B2),
-            blurRadius: 16,
-            offset: Offset(0, 0),
-          ),
-        ],
+        boxShadow: const [AppShadows.defaultShadow],
       ),
       child: Column(
         children: [
