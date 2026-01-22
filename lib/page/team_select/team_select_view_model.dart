@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:inning/core/data/mock/team_mock.dart';
 import 'package:inning/core/model/team.dart';
 import 'package:inning/page/welcome/welcome_view_model.dart';
 import 'package:inning/core/repository/team_repository.dart';
