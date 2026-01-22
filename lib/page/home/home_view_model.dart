@@ -25,6 +25,7 @@ class HomeNotifier extends Notifier<HomeStateData> {
   // 실제 위치 요청, 주소 가져오는 함수. v월드 실행할 메서드
   Future<void> requestLocationAndAdress() async {
     final locationService = LocationService();
+
     // 실제 Gps 팝업띄우고 주소 가져오기
     final String? district = await locationService.getCurrentDistrict();
 
