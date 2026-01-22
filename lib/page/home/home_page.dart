@@ -22,6 +22,15 @@ class _HomePageState extends ConsumerState<HomePage> {
     final state = ref.watch(homeViewModelProvider);
     final setState = ref.read(homeViewModelProvider.notifier);
 
+    final stadiumState = ref.watch(stadiumViewModelProvider);
+    final teamState = ref.watch(teamViewModelProvider);
+
+    final bool isLoading =
+        stadiumState.isLoading ||
+        teamState.isLoading ||
+        stadiumState.currentStadium == null ||
+        teamState.teams.isEmpty;
+
     Widget card = switch (state.locationState) {
       HomeLocationState.permissionRequired => const LocationPermissionCard(),
       HomeLocationState.outsideStadium => const OutsideStadiumCard(),
@@ -110,7 +119,8 @@ class _HomePageState extends ConsumerState<HomePage> {
         ],
       ),
 
-      bottomSheet: state.locationState == HomeLocationState.insideStadium
+      bottomSheet:
+          (state.locationState == HomeLocationState.insideStadium && !isLoading)
           ? SafeArea(
               child: Padding(
                 padding: const EdgeInsets.all(16).copyWith(bottom: 32),

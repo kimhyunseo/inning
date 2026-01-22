@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inning/core/fonts.dart';
+import 'package:inning/page/home/stadium_view_model.dart';
 import 'package:inning/page/welcome/welcome_view_model.dart';
 import 'package:inning/page/chat/chat_page.dart';
 import 'package:inning/page/welcome/widgets/profile_card.dart';
@@ -35,13 +36,21 @@ class WelcomePageState extends ConsumerState<WelcomePage> {
               height: 52,
               child: ElevatedButton(
                 onPressed: () {
-                  // 수정
+                  final stadiumState = ref.read(stadiumViewModelProvider);
+                  final currentStadium = stadiumState.currentStadium;
+
+                  if (currentStadium == null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('구장 정보를 확인할 수 없습니다.')),
+                    );
+                    return;
+                  }
                   ref.read(welcomeProvider.notifier).registerUser();
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return ChatPage();
+                        return ChatPage(currentStadium: currentStadium);
                       },
                     ),
                   );
