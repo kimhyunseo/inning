@@ -21,6 +21,7 @@ class ProfileTeamSelectField extends ConsumerWidget {
         );
       },
       child: Container(
+        padding: EdgeInsets.symmetric(vertical: 7, horizontal: 9),
         decoration: BoxDecoration(
           color: AppColors.grey4,
           borderRadius: BorderRadius.circular(4),

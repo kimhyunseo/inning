@@ -1,8 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inning/core/model/team.dart';
 import 'package:inning/core/model/user.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:inning/core/repository/user_repository.dart';
 import 'package:uuid/uuid.dart';
 
 class WelcomeState {
@@ -13,7 +12,7 @@ class WelcomeViewModel extends Notifier<User> {
   //
   @override
   User build() {
-    return User(id: Uuid().v4(), nickname: '', favoriteTeam: null); //
+    return User(id: '', nickname: '', favoriteTeam: null); //
   }
 
   // 상태 업데이트
@@ -37,19 +36,12 @@ class WelcomeViewModel extends Notifier<User> {
   // 저장 (로컬 + 파이어베이스)
   Future<void> registerUser() async {
     if (state.nickname == null || state.nickname!.isEmpty) return;
-
     try {
-      // 로컬에 저장
-      final prefs = await SharedPreferences.getInstance();
-      prefs.setString('user_id', state.id);
-      // 파이어베이스에 저장
-      await FirebaseFirestore.instance
-          .collection('user')
-          .doc(state.id)
-          .set(state.toJson());
-      print('저장 성공: ${state.id}');
+      final repository = UserRepository();
+      await repository.registerUser(state);
+      print('회원가입 프로세스 완료');
     } catch (e) {
-      print('저장 중 오류 발생: $e');
+      print('뷰모델 저장에러 ${e}');
     }
   }
 }
