@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inning/core/app_color.dart';
 import 'package:inning/core/fonts.dart';
-import 'package:inning/core/model/chat_message.dart';
 import 'package:inning/core/model/stadium.dart';
 import 'package:inning/core/widgets/common_app_bar.dart';
 import 'package:inning/page/chat/chat_view_model.dart';
@@ -45,7 +44,17 @@ class _ChatPageState extends ConsumerState<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    // final state = ref.watch(chatViewModelProvider);
+    void _onSubmit() {
+      if (_controller.text.trim().isNotEmpty) {
+        final vm = ref.read(chatViewModelProvider.notifier);
+        vm.sendMessage(
+          stadiumId: widget.currentStadium.id,
+          content: _controller.text,
+        );
+        // 전송 후 입력칸 비움
+        _controller.clear();
+      }
+    }
 
     return GestureDetector(
       // 빈 화면 터치시 키보드 사라짐
@@ -108,20 +117,7 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                     // 오른쪽 전송아이콘
                     suffixIcon: IconButton(
                       onPressed: () {
-                        if (_controller.text.trim().isNotEmpty) {
-                          final vm = ref.read(chatViewModelProvider.notifier);
-                          vm.sendMessage(
-                            widget.currentStadium.id,
-                            ChatMessage(
-                              content: _controller.text,
-                              senderId: 'user123', // 임시
-                              senderNickname: '현서', // 임시
-                              createdAt: DateTime.now(),
-                            ),
-                          );
-                          // 전송 후 입력칸 비움
-                          _controller.clear();
-                        }
+                        _onSubmit();
                       },
                       icon: Icon(Icons.send, color: AppColors.brandPoint),
                     ),
@@ -129,8 +125,7 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                   // 엔터버튼을 전송 아이콘으로 변경
                   textInputAction: TextInputAction.newline,
                   onFieldSubmitted: (value) {
-                    print('전송: $value');
-                    _controller.clear();
+                    _onSubmit();
                   },
                 ),
               ),

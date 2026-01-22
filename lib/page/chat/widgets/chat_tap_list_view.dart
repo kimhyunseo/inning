@@ -1,29 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inning/core/app_color.dart';
-import 'package:inning/core/data/mock/user_mock.dart';
 import 'package:inning/core/fonts.dart';
+import 'package:inning/core/model/user.dart';
+import 'package:inning/core/utils/user_util.dart';
 import 'package:inning/core/widgets/loading_page.dart';
 import 'package:inning/page/chat/chat_view_model.dart';
 import 'package:inning/page/chat/widgets/my_message_widget.dart';
 import 'package:inning/page/chat/widgets/other_messege_widget.dart';
 import 'package:inning/page/home/team_view_model.dart';
 
-class ChatTapListView extends ConsumerWidget {
+class ChatTapListView extends ConsumerStatefulWidget {
   final String stadiumId;
   const ChatTapListView({super.key, required this.stadiumId});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ChatTapListView> createState() => _ChatTapListViewState();
+}
+
+class _ChatTapListViewState extends ConsumerState<ChatTapListView> {
+  // 이제 발신자들(usersMap)은 ViewModel에서 관리하므로 내 정보(currentUser)만 관리합니다.
+  User? currentUser;
+
+  @override
+  void initState() {
+    super.initState();
+    isMe();
+  }
+
+  Future<void> isMe() async {
+    final user = await UserUtil.getCurrentUser();
+    if (mounted) {
+      setState(() {
+        currentUser = user;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final teamState = ref.watch(teamViewModelProvider);
     final state = ref.watch(chatViewModelProvider);
 
-    if (teamState.isLoading) {
+    if (teamState.isLoading || state.isLoading) {
       return const LoadingPage();
-    }
-
-    if (state.isLoading) {
-      return const Center(child: CircularProgressIndicator());
     }
 
     if (state.messages.isEmpty) {
@@ -36,18 +56,9 @@ class ChatTapListView extends ConsumerWidget {
         ),
       );
     }
-    //  팀 정보를 Map으로 만들어 가공 (기존 로직 유지)
+
     final teamsMap = {for (var team in teamState.teams) team.id: team};
-    final users = createMockUsers(teamState.teams);
-    final usersMap = {for (var user in users) user.id: user};
-
-    // TODO: 실제 로그인된 유저 정보를 가져오도록 추후 변경 (지금은 Mock)
-    final currentUser = users.firstWhere((u) => u.id == 'user1');
-
-    // 해당 구장에 맞는 메세지만 가져오도록 필터링
-    // 지금은 mock이라 전체 메세지를 가져온 뒤 stadiumId로 filter
     final messages = state.messages;
-    (users, currentUser, stadiumId);
 
     return Padding(
       padding: const EdgeInsets.only(right: 12, left: 12),
@@ -67,7 +78,7 @@ class ChatTapListView extends ConsumerWidget {
               reversedIndex == messages.length - 1 ||
               messages[reversedIndex + 1].senderId != message.senderId;
 
-          if (message.senderId == currentUser.id) {
+          if (currentUser != null && message.senderId == currentUser!.id) {
             return MyMessageWidget(
               message: message,
               isFirstInGroup: isFirstInGroup,
@@ -78,7 +89,7 @@ class ChatTapListView extends ConsumerWidget {
               message: message,
               isFirstInGroup: isFirstInGroup,
               isLastInGroup: isLastInGroup,
-              usersMap: usersMap,
+              usersMap: state.usersMap,
               teamsMap: teamsMap,
             );
           }
