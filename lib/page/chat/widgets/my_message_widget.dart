@@ -1,4 +1,4 @@
-import 'package:chat_bubbles/bubbles/bubble_special_three.dart';
+import 'package:chat_bubbles/chat_bubbles.dart';
 import 'package:flutter/material.dart';
 import 'package:inning/core/app_color.dart';
 import 'package:inning/core/fonts.dart';
@@ -38,7 +38,7 @@ class MyMessageWidget extends StatelessWidget {
                 ),
               ),
             ),
-          BubbleSpecialThree(
+          BubbleSpecialOne(
             text: message.content,
             color: AppColors.warning,
             tail: isFirstInGroup,

@@ -22,8 +22,23 @@ class _HomePageState extends ConsumerState<HomePage> {
     final state = ref.watch(homeViewModelProvider);
     final setState = ref.read(homeViewModelProvider.notifier);
 
+    final stadiumState = ref.watch(stadiumViewModelProvider);
+    final teamState = ref.watch(teamViewModelProvider);
+
+    final bool isLoading =
+        stadiumState.isLoading ||
+        teamState.isLoading ||
+        stadiumState.currentStadium == null ||
+        teamState.teams.isEmpty;
+
     Widget card = switch (state.locationState) {
-      HomeLocationState.permissionRequired => const LocationPermissionCard(),
+      // 권한요청 팝업 띄우기. 홈페이지에서 함수 전달
+      HomeLocationState.permissionRequired => LocationPermissionCard(
+        onPermissionRequest: () {
+          // 홈뷰모델 홈노티파이어. 위치상태변경. 실제위치요청 로직 홈버튼 눌렀을 때 실행
+          ref.read(homeViewModelProvider.notifier).requestLocationAndAdress();
+        },
+      ),
       HomeLocationState.outsideStadium => const OutsideStadiumCard(),
       HomeLocationState.insideStadium => const InStadium(),
     };
@@ -110,7 +125,8 @@ class _HomePageState extends ConsumerState<HomePage> {
         ],
       ),
 
-      bottomSheet: state.locationState == HomeLocationState.insideStadium
+      bottomSheet:
+          (state.locationState == HomeLocationState.insideStadium && !isLoading)
           ? SafeArea(
               child: Padding(
                 padding: const EdgeInsets.all(16).copyWith(bottom: 32),

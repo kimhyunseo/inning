@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inning/core/model/stadium.dart';
 import 'package:inning/core/repository/stadium_repository.dart';
@@ -29,14 +30,12 @@ class StadiumState {
 
 /// ViewModel
 class StadiumViewModel extends Notifier<StadiumState> {
-  final StadiumRepository repository;
-
-  StadiumViewModel({StadiumRepository? repository})
-    : repository = repository ?? StadiumRepository();
+  final StadiumRepository repository = StadiumRepository();
 
   @override
   StadiumState build() {
-    // 초기 상태만 설정
+    loadStadiums();
+    // 초기 상태 설정
     return const StadiumState(
       stadiums: [],
       currentStadium: null,
@@ -46,6 +45,8 @@ class StadiumViewModel extends Notifier<StadiumState> {
 
   /// 전체 경기장 가져오기
   Future<void> loadStadiums() async {
+    if (state.isLoading) return;
+
     state = state.copyWith(isLoading: true);
 
     try {
@@ -60,7 +61,7 @@ class StadiumViewModel extends Notifier<StadiumState> {
         isLoading: false,
       );
     } catch (e) {
-      print("❌ 경기장 가져오기 실패: $e");
+      debugPrint("경기장 가져오기 실패: $e");
       state = state.copyWith(isLoading: false);
     }
   }

@@ -1,4 +1,3 @@
-import 'package:chat_bubbles/bubbles/bubble_special_three.dart';
 import 'package:flutter/material.dart';
 import 'package:inning/core/app_color.dart';
 import 'package:inning/core/fonts.dart';
@@ -6,6 +5,7 @@ import 'package:inning/core/model/chat_message.dart';
 import 'package:inning/core/model/team.dart';
 import 'package:inning/core/model/user.dart';
 import 'package:inning/core/utils/time_util.dart';
+import 'package:chat_bubbles/chat_bubbles.dart';
 
 class OtherMessageWidget extends StatelessWidget {
   final ChatMessage message;
@@ -46,43 +46,46 @@ class OtherMessageWidget extends StatelessWidget {
             maintainSize: true,
             maintainAnimation: true,
             maintainState: true,
-            child: Stack(
-              clipBehavior: Clip.none,
-              alignment: Alignment.center,
-              children: [
-                CircleAvatar(
-                  radius: 25,
-                  backgroundColor: AppColors.brandHintText,
-                  backgroundImage: sender?.profileImage != null
-                      ? AssetImage(sender!.profileImage!)
-                      : null,
-                  child: sender?.profileImage == null
-                      ? Icon(
-                          Icons.person,
-                          size: 40,
-                          color: AppColors.brandPoint,
-                        )
-                      : null,
-                ),
-                if (team?.logoAsset != null)
-                  Positioned(
-                    top: -3,
-                    left: -3,
-                    child: CircleAvatar(
-                      radius: 11,
-                      backgroundColor: AppColors.white,
-                      child: Padding(
-                        padding: const EdgeInsets.all(1.0),
-                        child: ClipOval(
-                          child: Image.asset(
-                            team!.logoAsset,
-                            fit: BoxFit.cover,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 12),
+              child: Stack(
+                clipBehavior: Clip.none,
+                alignment: Alignment.center,
+                children: [
+                  CircleAvatar(
+                    radius: 25,
+                    backgroundColor: AppColors.brandHintText,
+                    backgroundImage: sender?.profileImage != null
+                        ? AssetImage(sender!.profileImage!)
+                        : null,
+                    child: sender?.profileImage == null
+                        ? Icon(
+                            Icons.person,
+                            size: 40,
+                            color: AppColors.brandPoint,
+                          )
+                        : null,
+                  ),
+                  if (team?.logoAsset != null)
+                    Positioned(
+                      top: -3,
+                      left: -3,
+                      child: CircleAvatar(
+                        radius: 11,
+                        backgroundColor: AppColors.white,
+                        child: Padding(
+                          padding: const EdgeInsets.all(1.0),
+                          child: ClipOval(
+                            child: Image.asset(
+                              team!.logoAsset,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-              ],
+                ],
+              ),
             ),
           ),
 
@@ -104,7 +107,7 @@ class OtherMessageWidget extends StatelessWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    BubbleSpecialThree(
+                    BubbleSpecialOne(
                       text: message.content,
                       color: AppColors.white,
                       tail: isFirstInGroup,

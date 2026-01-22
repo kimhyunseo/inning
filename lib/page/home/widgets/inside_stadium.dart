@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inning/core/data/mock/match_mock.dart';
+import 'package:inning/core/widgets/loading_page.dart';
 import 'package:inning/page/home/stadium_view_model.dart';
 import 'package:inning/page/home/team_view_model.dart';
 import 'package:inning/page/home/widgets/match_score_card.dart';
@@ -15,16 +16,14 @@ class InStadium extends ConsumerWidget {
     final stadiumState = ref.watch(stadiumViewModelProvider);
     final teamState = ref.watch(teamViewModelProvider);
 
-    print(" stadiumState.currentStadium: ${stadiumState.currentStadium?.name}");
-    print(" teamState.teams 개수: ${teamState.teams.length}");
+    final isDataNotReady =
+        stadiumState.isLoading ||
+        teamState.isLoading ||
+        stadiumState.currentStadium == null ||
+        teamState.teams.isEmpty;
 
-    // 경기장 또는 팀 데이터가 로딩 중이거나 비어있을 때 처리
-    if (stadiumState.isLoading || teamState.isLoading) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
-    if (stadiumState.currentStadium == null || teamState.teams.isEmpty) {
-      return const Center(child: Text('데이터를 불러오는 중입니다...'));
+    if (isDataNotReady) {
+      return const LoadingPage();
     }
 
     final currentStadium = stadiumState.currentStadium!;

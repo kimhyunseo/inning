@@ -6,43 +6,41 @@ import 'package:inning/core/repository/team_repository.dart';
 class TeamState {
   final bool isLoading;
   final List<Team> teams;
-  final String? error;
 
-  const TeamState({this.isLoading = false, this.teams = const [], this.error});
+  const TeamState({this.isLoading = false, this.teams = const []});
 
-  TeamState copyWith({bool? isLoading, List<Team>? teams, String? error}) {
+  TeamState copyWith({bool? isLoading, List<Team>? teams}) {
     return TeamState(
       isLoading: isLoading ?? this.isLoading,
       teams: teams ?? this.teams,
-      error: error,
     );
   }
 }
 
-class TeamNotifier extends Notifier<TeamState> {
-  final TeamRepository repository;
-
-  TeamNotifier({required this.repository});
-
+class TeamViewModel extends Notifier<TeamState> {
   @override
   TeamState build() {
+    loadTeams();
     return const TeamState();
   }
 
+  final TeamRepository repository = TeamRepository();
+
   /// 팀 데이터 로드
   Future<void> loadTeams() async {
-    state = state.copyWith(isLoading: true, error: null);
+    if (state.isLoading) return;
+
+    state = state.copyWith(isLoading: true);
     try {
       final teams = await repository.fetchTeams();
       state = state.copyWith(isLoading: false, teams: teams);
     } catch (e) {
-      state = state.copyWith(isLoading: false, error: e.toString());
+      state = state.copyWith(isLoading: false);
     }
   }
 }
 
 /// Provider 정의
-final teamViewModelProvider = NotifierProvider<TeamNotifier, TeamState>(() {
-  final repository = TeamRepository();
-  return TeamNotifier(repository: repository);
+final teamViewModelProvider = NotifierProvider<TeamViewModel, TeamState>(() {
+  return TeamViewModel();
 });

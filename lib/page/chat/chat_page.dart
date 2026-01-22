@@ -1,24 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inning/core/app_color.dart';
 import 'package:inning/core/fonts.dart';
+import 'package:inning/core/model/stadium.dart';
 import 'package:inning/core/widgets/common_app_bar.dart';
+import 'package:inning/page/chat/chat_view_model.dart';
 import 'package:inning/page/chat/widgets/chat_tap_list_view.dart';
 import 'package:inning/page/chat/widgets/chat_tap_notice.dart';
 
-class ChatPage extends StatefulWidget {
-  const ChatPage({super.key});
+class ChatPage extends ConsumerStatefulWidget {
+  final Stadium currentStadium;
 
+  const ChatPage({super.key, required this.currentStadium});
   @override
-  State<ChatPage> createState() => _ChatPageState();
+  ConsumerState<ChatPage> createState() => _ChatPageState();
 }
 
-class _ChatPageState extends State<ChatPage> {
-  final TextEditingController _controller = TextEditingController();
+class _ChatPageState extends ConsumerState<ChatPage> {
+  late final TextEditingController _controller;
+  late final FocusNode _focusNode;
 
-  final FocusNode _focusNode = FocusNode();
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController();
+    _focusNode = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _focusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(chatViewModelProvider);
+
     return GestureDetector(
       // 빈 화면 터치시 키보드 사라짐
       onTap: () {
@@ -28,7 +47,7 @@ class _ChatPageState extends State<ChatPage> {
         backgroundColor: AppColors.brandPopUp,
         resizeToAvoidBottomInset: true,
 
-        appBar: const CommonAppBar(
+        appBar: CommonAppBar(
           title: '경기 관람 채팅방',
           actionIcon: Icons.info_outline,
         ),
@@ -42,7 +61,7 @@ class _ChatPageState extends State<ChatPage> {
               // 채팅 리스트 영역 (남은 공간을 꽉 채움)
               Expanded(
                 //
-                child: ChatTapListView(),
+                child: ChatTapListView(stadiumId: widget.currentStadium.id),
               ),
 
               // 입력 필드
