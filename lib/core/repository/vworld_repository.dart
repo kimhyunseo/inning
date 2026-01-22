@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:inning/core/geolocator_helper.dart';
 
-class Vworld {
+// 네트워크 통신. 상태관리는 뷰모델에서 해야한다.
+class VworldRepository {
   // 공통으로 쓸 수 있는 클라이언트 객체
 
   final Dio _client = Dio(
@@ -75,7 +77,7 @@ class Vworld {
         final featureList = List.from(features);
         // print(featureList);
         final Iterable = featureList.map((feat) {
-          return '${feat['properties']['fullnm']}';
+          return '${feat['properties']['full_nm']}';
         });
         return Iterable.toList();
       }
@@ -84,6 +86,47 @@ class Vworld {
     } catch (e) {
       print(e);
       return [];
+    }
+  }
+}
+
+// 사용자의 현재 위치를 가지고 데이터 조회
+class LocationService {
+  final VworldRepository _repository = VworldRepository();
+
+  // 현재 위치를 기반으로 시 구 형태의 주소를 가지고 오는 함수
+  Future<String?> getCurrentDistrict() async {
+    try {
+      // 1. gps 위치 가져오기
+      final position = await GeolocatorHelper.getPosition();
+      if (position == null) return '위치 정보를 가져올 수 없습니다.';
+
+      // 2. V월드 API로 행정동 정보조회
+      final List<String> addressList = await _repository.findByLatLog(
+        position.latitude,
+        position.longitude,
+      );
+
+      if (addressList.isNotEmpty) {
+        // addressList.first 결과 예시: 서울시 서초구 서초동
+        final fullAdress = addressList.first;
+
+        // 서울 서초구 형태로 출력
+        final parts = fullAdress.split(' ');
+        if (parts.length >= 2) {
+          // 서울특별시를 서울로 줄이고 싶을 때
+          final city = parts[0].substring(0, 2);
+          // 서초구
+          final district = parts[1];
+          return '$city $district';
+        }
+        return fullAdress;
+      }
+      // 주소를 찾을 수 없을 때
+      return '알 수 없음';
+    } catch (e) {
+      print('현재 위치: $e');
+      return null;
     }
   }
 }

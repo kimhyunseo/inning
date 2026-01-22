@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:inning/page/welcome/vworld.dart';
+import 'package:inning/core/repository/vworld_repository.dart';
 
 void main() {
-  final vworld = Vworld();
+  final vworld = VworldRepository();
 
   test('Vworld : findName test', () async {
     final result = await vworld.findName('연희동');
