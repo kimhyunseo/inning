@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inning/core/app_color.dart';
 import 'package:inning/core/fonts.dart';
+import 'package:inning/core/model/chat_message.dart';
 import 'package:inning/core/model/stadium.dart';
 import 'package:inning/core/widgets/common_app_bar.dart';
 import 'package:inning/page/chat/chat_view_model.dart';
@@ -23,8 +24,16 @@ class _ChatPageState extends ConsumerState<ChatPage> {
   @override
   void initState() {
     super.initState();
+
     _controller = TextEditingController();
     _focusNode = FocusNode();
+
+    // TODO: 구독 시작 (안되면 고치기)
+    Future.microtask(() {
+      ref
+          .read(chatViewModelProvider.notifier)
+          .watchChat(widget.currentStadium.id);
+    });
   }
 
   @override
@@ -36,7 +45,7 @@ class _ChatPageState extends ConsumerState<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(chatViewModelProvider);
+    // final state = ref.watch(chatViewModelProvider);
 
     return GestureDetector(
       // 빈 화면 터치시 키보드 사라짐
@@ -100,7 +109,16 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                     suffixIcon: IconButton(
                       onPressed: () {
                         if (_controller.text.trim().isNotEmpty) {
-                          print('전송: ${_controller.text}');
+                          final vm = ref.read(chatViewModelProvider.notifier);
+                          vm.sendMessage(
+                            widget.currentStadium.id,
+                            ChatMessage(
+                              content: _controller.text,
+                              senderId: 'user123', // 임시
+                              senderNickname: '현서', // 임시
+                              createdAt: DateTime.now(),
+                            ),
+                          );
                           // 전송 후 입력칸 비움
                           _controller.clear();
                         }

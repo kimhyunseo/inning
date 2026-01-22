@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inning/core/model/team.dart';
 import 'package:inning/page/welcome/welcome_view_model.dart';
@@ -33,7 +34,7 @@ class TeamSelectNotifier extends Notifier<TeamSelectState> {
       state = state.copyWith(teams: teams);
     } catch (e) {
       state = state.copyWith(teams: []);
-      print('팀 데이터 불러오기 실패: $e');
+      debugPrint('팀 데이터 불러오기 실패: $e');
     }
   }
 
