@@ -35,6 +35,8 @@ class ProfileNameField extends ConsumerWidget {
           Expanded(
             child: TextFormField(
               // controller: controller,
+              autofocus: false,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               initialValue: currentNickname, // 마이페이지 이름필드 수정
               textAlign: TextAlign.center, // 입력하려는 글자 가로/가운데
               textAlignVertical: TextAlignVertical.center, // 입력되는 글자 세로/가운데

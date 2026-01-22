@@ -21,8 +21,7 @@ class WelcomePageState extends ConsumerState<WelcomePage> {
     final user = ref.watch(welcomeProvider);
     // 유효성검사
     final isFormValid =
-        (user.nickname != null && user.nickname!.trim().isNotEmpty) &&
-        (user.favoriteTeam != null);
+        (user.nickname != null && user.nickname!.trim().isNotEmpty);
 
     return GestureDetector(
       // behavior: HitTestBehavior.opaque,
@@ -45,6 +44,8 @@ class WelcomePageState extends ConsumerState<WelcomePage> {
               child: ElevatedButton(
                 onPressed: isFormValid
                     ? () {
+                        //
+                        FocusManager.instance.primaryFocus?.unfocus();
                         final stadiumState = ref.read(stadiumViewModelProvider);
                         final currentStadium = stadiumState.currentStadium;
 
