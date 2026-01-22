@@ -31,6 +31,7 @@ class WelcomeViewModel extends Notifier<User> {
       id: state.id,
       nickname: nickname,
       favoriteTeam: state.favoriteTeam,
+      profileImage: state.profileImage,
     );
   }
 
@@ -40,6 +41,7 @@ class WelcomeViewModel extends Notifier<User> {
       id: state.id,
       nickname: state.nickname,
       favoriteTeam: favoriteTeam,
+      profileImage: state.profileImage,
     );
   }
 

@@ -15,7 +15,7 @@ class ProfileNameField extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     print('빌드');
-    // final currentNickname = ref.watch(welcomeProvider).nickname ?? '';
+    final currentNickname = ref.watch(welcomeProvider).nickname;
     // ?
     // if (controller.text != currentNickname) {
     //   print('컨트롤러');
@@ -35,6 +35,7 @@ class ProfileNameField extends ConsumerWidget {
           Expanded(
             child: TextFormField(
               // controller: controller,
+              initialValue: currentNickname, // 마이페이지 이름필드 수정
               textAlign: TextAlign.center, // 입력하려는 글자 가로/가운데
               textAlignVertical: TextAlignVertical.center, // 입력되는 글자 세로/가운데
               decoration: InputDecoration(
@@ -77,7 +78,7 @@ class ProfileNameField extends ConsumerWidget {
             child: GestureDetector(
               onTap: () {
                 // controller.clear();
-                ref.read(welcomeProvider.notifier).updateNickname('');
+                // ref.read(welcomeProvider.notifier).updateNickname('');
               },
               child: Icon(Icons.close, size: 20, color: AppColors.grey1),
             ),

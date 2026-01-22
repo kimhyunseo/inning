@@ -36,7 +36,7 @@ class ProfileTeamSelectField extends ConsumerWidget {
                   : Icon(Icons.error_outline, size: 20, color: AppColors.grey2),
             ),
             Text(
-              selectedTeam?.name ?? '없음',
+              selectedTeam?.name ?? '구단 선택',
               style: AppTextStyles.bodyPrimary16w500.copyWith(
                 color: selectedTeam != null ? AppColors.black : AppColors.grey1,
               ),

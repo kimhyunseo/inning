@@ -17,6 +17,9 @@ class ProfileImagePicker extends ConsumerWidget {
         // 이미지피커 객체의 픽이미지라는 메서드 호츌
         XFile? xFile = await imagePicker.pickImage(source: ImageSource.gallery);
         print('경로: ${xFile?.path}');
+        if (xFile != null) {
+          await ref.read(welcomeProvider.notifier).uploadImage(xFile);
+        }
       },
       child: Stack(
         children: [
@@ -28,7 +31,11 @@ class ProfileImagePicker extends ConsumerWidget {
               color: AppColors.brandPopUp,
               shape: BoxShape.circle,
             ),
-            child: Icon(Icons.person, size: 85, color: AppColors.brandHintText),
+            child: profileImageUrl != null && profileImageUrl.isNotEmpty
+                ? ClipOval(
+                    child: Image.network(profileImageUrl, fit: BoxFit.cover),
+                  )
+                : Icon(Icons.person, size: 85, color: AppColors.brandHintText),
           ),
           // 연필 아이콘
           Positioned(
