@@ -2,12 +2,16 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inning/core/app_theme.dart';
-import 'package:inning/core/widgets/design_system.dart';
 import 'package:inning/firebase_options.dart';
+import 'package:inning/page/home/home_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // 확인용
+  // final sharedPreferences = await SharedPreferences.getInstance();
+  // sharedPreferences.clear();
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -16,9 +20,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: AppTheme.lightTheme,
-      home: const DesignSystemCheckPage(),
-    );
+    return MaterialApp(theme: AppTheme.lightTheme, home: HomePage());
   }
 }
