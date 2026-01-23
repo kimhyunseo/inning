@@ -18,6 +18,11 @@ class WelcomePageState extends ConsumerState<WelcomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final user = ref.watch(welcomeProvider);
+    // 유효성검사
+    final isFormValid =
+        (user.nickname != null && user.nickname!.trim().isNotEmpty);
+
     return GestureDetector(
       // behavior: HitTestBehavior.opaque,
       onTap: () {
@@ -37,26 +42,30 @@ class WelcomePageState extends ConsumerState<WelcomePage> {
               width: double.infinity,
               height: 52,
               child: ElevatedButton(
-                onPressed: () async {
-                  final stadiumState = ref.read(stadiumViewModelProvider);
-                  final currentStadium = stadiumState.currentStadium;
+                onPressed: isFormValid
+                    ? () {
+                        //
+                        FocusManager.instance.primaryFocus?.unfocus();
+                        final stadiumState = ref.read(stadiumViewModelProvider);
+                        final currentStadium = stadiumState.currentStadium;
 
-                  if (currentStadium == null) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('구장 정보를 확인할 수 없습니다.')),
-                    );
-                    return;
-                  }
-                  ref.read(welcomeProvider.notifier).registerUser();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return ChatPage(currentStadium: currentStadium);
-                      },
-                    ),
-                  );
-                },
+                        if (currentStadium == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('구장 정보를 확인할 수 없습니다.')),
+                          );
+                          return;
+                        }
+                        ref.read(welcomeProvider.notifier).registerUser();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return ChatPage(currentStadium: currentStadium);
+                            },
+                          ),
+                        );
+                      }
+                    : null,
                 child: const Text("입력 완료"),
               ),
             ),
