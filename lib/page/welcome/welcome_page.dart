@@ -18,10 +18,11 @@ class WelcomePageState extends ConsumerState<WelcomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final user = ref.watch(welcomeProvider);
+    final userState = ref.watch(welcomeProvider);
     // 유효성검사
     final isFormValid =
-        (user.nickname != null && user.nickname!.trim().isNotEmpty);
+        (userState.user.nickname != null &&
+        userState.user.nickname!.trim().isNotEmpty);
 
     return GestureDetector(
       // behavior: HitTestBehavior.opaque,
@@ -43,7 +44,7 @@ class WelcomePageState extends ConsumerState<WelcomePage> {
               height: 52,
               child: ElevatedButton(
                 onPressed: isFormValid
-                    ? () {
+                    ? () async {
                         //
                         FocusManager.instance.primaryFocus?.unfocus();
                         final stadiumState = ref.read(stadiumViewModelProvider);
@@ -55,15 +56,19 @@ class WelcomePageState extends ConsumerState<WelcomePage> {
                           );
                           return;
                         }
-                        ref.read(welcomeProvider.notifier).registerUser();
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return ChatPage(currentStadium: currentStadium);
-                            },
-                          ),
-                        );
+
+                        await ref.read(welcomeProvider.notifier).registerUser();
+
+                        if (context.mounted) {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return ChatPage(currentStadium: currentStadium);
+                              },
+                            ),
+                          );
+                        }
                       }
                     : null,
                 child: const Text("입력 완료"),

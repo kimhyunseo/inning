@@ -38,12 +38,8 @@ class TeamSelectNotifier extends Notifier<TeamSelectState> {
     }
   }
 
-  void selectTeam(String teamId) {
+  void selectTeam(String? teamId) {
     state = state.copyWith(selectedTeamId: teamId);
-  }
-
-  void selectNone() {
-    state = state.copyWith(selectedTeamId: null);
   }
 
   void confirmSelected() {

@@ -21,9 +21,18 @@ class HomePage extends ConsumerStatefulWidget {
 
 class _HomePageState extends ConsumerState<HomePage> {
   @override
+  void initState() {
+    // 빌드 메소드가 1번은 실행이 되고 난 이후에 호출
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(stadiumViewModelProvider.notifier).loadStadiums();
+    });
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final state = ref.watch(homeViewModelProvider);
-    final setState = ref.read(homeViewModelProvider.notifier);
 
     final stadiumState = ref.watch(stadiumViewModelProvider);
     final teamState = ref.watch(teamViewModelProvider);
@@ -36,18 +45,8 @@ class _HomePageState extends ConsumerState<HomePage> {
 
     Widget card = switch (state.locationState) {
       // 권한요청 팝업 띄우기. 홈페이지에서 함수 전달
-      HomeLocationState.permissionRequired => LocationPermissionCard(
-        onPermissionRequest: () {
-          // 홈뷰모델 홈노티파이어. 위치상태변경. 실제위치요청 로직 홈버튼 눌렀을 때 실행
-          ref.read(homeViewModelProvider.notifier).requestLocationAndAdress();
-        },
-      ),
-      HomeLocationState.outsideStadium => OutsideStadiumCard(
-        address: state.district,
-        // 비동기 작업 실패 시 다시시도 버튼 제공
-        onRetry: () =>
-            ref.read(homeViewModelProvider.notifier).requestLocationAndAdress(),
-      ),
+      HomeLocationState.permissionRequired => LocationPermissionCard(),
+      HomeLocationState.outsideStadium => OutsideStadiumCard(),
       HomeLocationState.insideStadium => const InStadium(),
       HomeLocationState.locationError => Center(
         child: Column(children: [Text('위치 정보를 불러올 수 없습니다.')]),

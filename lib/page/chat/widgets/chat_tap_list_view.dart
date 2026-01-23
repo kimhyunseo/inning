@@ -25,10 +25,10 @@ class _ChatTapListViewState extends ConsumerState<ChatTapListView> {
   @override
   void initState() {
     super.initState();
-    isMe();
+    getCurrentUser();
   }
 
-  Future<void> isMe() async {
+  Future<void> getCurrentUser() async {
     final user = await UserUtil.getCurrentUser();
     if (mounted) {
       setState(() {
@@ -57,6 +57,9 @@ class _ChatTapListViewState extends ConsumerState<ChatTapListView> {
       );
     }
 
+    // 로고 자체가 앱 내에 넣어놓은 이미지를 사용 -> 파이어베이스 스토리지 -> imageUrl
+    // 발송인의 User객체 자체에 있는 profileImage 속성을 사용 -> profileImageUrl
+
     final teamsMap = {for (var team in teamState.teams) team.id: team};
     final messages = state.messages;
 
@@ -65,9 +68,11 @@ class _ChatTapListViewState extends ConsumerState<ChatTapListView> {
       child: ListView.builder(
         reverse: true,
         itemCount: messages.length,
-
         itemBuilder: (context, index) {
-          final reversedIndex = messages.length - 1 - index;
+          // 10개가 있다
+          // 10 - 1 - 0 = 9
+
+          final reversedIndex = messages.length - 1 - index; // 10
           final message = messages[reversedIndex];
 
           final isFirstInGroup =

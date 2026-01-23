@@ -63,15 +63,14 @@ class GlobalLocationNotifier extends Notifier<GlobalLocationState> {
           .getCurrentDistrict();
 
       // 1. 위치 정보 자체를 가져오지 못한 경우
-      if (currentDistrict == null ||
-          currentDistrict == '위치 정보를 가져올 수 없습니다.' ||
-          currentDistrict == '알 수 없음') {
+      if (currentDistrict == null || currentDistrict == '알 수 없음') {
         state = state.copyWith(
           locationState: HomeLocationState.locationError,
           district: currentDistrict,
           isLoading: false,
         );
-      } else {
+        return;
+      } else if (currentDistrict == '위치 정보를 가져올 수 없습니다.') {
         state = state.copyWith(
           locationState: HomeLocationState.permissionRequired,
           isLoading: false,
@@ -79,15 +78,19 @@ class GlobalLocationNotifier extends Notifier<GlobalLocationState> {
         // 실패시 종료
         return;
       }
+
       // 주소 획득 성공 상태
       // 2. 스타디움뷰모델 데이터 참조해서 현재 위치가 경기장 리스트 안인지 확인
       final stadiumState = ref.read(stadiumViewModelProvider);
 
       // 리스트에서 조건에 맞는 첫번째 경기장 찾기
       final Stadium matchedStadium = stadiumState.stadiums.firstWhere(
-        (s) =>
-            s.district.contains(currentDistrict!) ||
-            s.name.contains(currentDistrict),
+        (s) {
+          print('s.district: ${s.district}');
+
+          return s.district.contains(currentDistrict) ||
+              s.name.contains(currentDistrict);
+        },
         orElse: () => const Stadium(
           // 아이디를 빈 문자열로 주어야 나중에 비어있는지 체크가 정확하다. 공백은 true를 반환
           id: '',
@@ -112,6 +115,7 @@ class GlobalLocationNotifier extends Notifier<GlobalLocationState> {
         // 경기장 밖
         state = state.copyWith(
           locationState: HomeLocationState.outsideStadium,
+          district: currentDistrict,
           isLoading: false,
         );
       }

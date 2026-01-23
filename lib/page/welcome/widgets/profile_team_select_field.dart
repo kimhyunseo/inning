@@ -10,7 +10,7 @@ class ProfileTeamSelectField extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedTeam = ref.watch(welcomeProvider).favoriteTeam;
+    final selectedTeam = ref.watch(welcomeProvider).user.favoriteTeam;
 
     return GestureDetector(
       onTap: () {

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inning/core/app_color.dart';
 import 'package:inning/core/app_shadow.dart';
 import 'package:inning/core/fonts.dart';
+import 'package:inning/page/home/home_view_model.dart';
 
-class OutsideStadiumCard extends StatelessWidget {
-  const OutsideStadiumCard({super.key, this.address, required this.onRetry});
-
-  final String? address;
-  // '위치파악불가' 콜백함수 추가
-  final VoidCallback onRetry;
+class OutsideStadiumCard extends ConsumerWidget {
+  const OutsideStadiumCard({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(homeViewModelProvider);
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -72,7 +72,7 @@ class OutsideStadiumCard extends StatelessWidget {
                               SizedBox(width: 8),
                               // 받아온 주소가 있으면 표시, 없으면 기본값
                               Text(
-                                '현재 위치: ${address ?? '위치 파악 불가'}',
+                                '현재 위치: ${state.district ?? '위치 파악 불가'}',
                                 style: AppTextStyles.labelStatus12w500.copyWith(
                                   color: AppColors.brandPoint,
                                 ),
@@ -118,7 +118,7 @@ class OutsideStadiumCard extends StatelessWidget {
         /// 하단 안내
         GestureDetector(
           onTap: () {
-            print("위치 재조회");
+            ref.read(homeViewModelProvider.notifier).requestLocationAndAdress();
           },
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,

@@ -3,12 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inning/core/app_color.dart';
 import 'package:inning/core/app_shadow.dart';
 import 'package:inning/core/fonts.dart';
+import 'package:inning/page/home/home_view_model.dart';
 
 class LocationPermissionCard extends ConsumerWidget {
-  const LocationPermissionCard({super.key, required this.onPermissionRequest});
-
-  // 콜백 함수를 담을 변수 정의
-  final VoidCallback onPermissionRequest;
+  const LocationPermissionCard({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -72,10 +70,12 @@ class LocationPermissionCard extends ConsumerWidget {
 
               /// 버튼
               ElevatedButton(
-                onPressed:
-                    // 뷰모델 권한요청 로직 실행
-                    onPermissionRequest,
-                child: Text("위치 권환 허용"),
+                onPressed: () {
+                  ref
+                      .read(homeViewModelProvider.notifier)
+                      .requestLocationAndAdress();
+                },
+                child: Text("위치 권한 허용"),
               ),
             ],
           ),

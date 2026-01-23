@@ -20,7 +20,7 @@ class ProfileNameFieldState extends ConsumerState<ProfileNameField> {
   void initState() {
     super.initState();
     controller = TextEditingController(
-      text: ref.read(welcomeProvider).nickname,
+      text: ref.read(welcomeProvider).user.nickname,
     );
   }
 
@@ -63,20 +63,8 @@ class ProfileNameFieldState extends ConsumerState<ProfileNameField> {
                 contentPadding: EdgeInsets.fromLTRB(12, 0, 12, 0),
               ),
               //
-              onChanged: (value) {
-                ref.read(welcomeProvider.notifier).updateNickname(value);
-                print('온체인지');
-              },
-
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return '이름을 입력해주세요';
-                }
-                if (value.length < 2) {
-                  return '2자 이상 입력해주세요.';
-                }
-                return null;
-              },
+              onChanged: ref.read(welcomeProvider.notifier).updateNickname,
+              validator: _nameValidator,
               onFieldSubmitted: (value) {
                 print('온필드서브');
                 if (widget.formKey.currentState!.validate()) {
@@ -100,5 +88,15 @@ class ProfileNameFieldState extends ConsumerState<ProfileNameField> {
         ],
       ),
     );
+  }
+
+  String? _nameValidator(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return '이름을 입력해주세요';
+    }
+    if (value.length < 2) {
+      return '2자 이상 입력해주세요.';
+    }
+    return null;
   }
 }

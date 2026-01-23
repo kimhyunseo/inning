@@ -63,7 +63,7 @@ class TeamSelectPage extends ConsumerWidget {
                     return TeamSelectGridItem(
                       team: null,
                       isSelected: state.selectedTeamId == null,
-                      onTap: viewModel.selectNone,
+                      onTap: () => viewModel.selectTeam(null),
                     );
                   }
 
