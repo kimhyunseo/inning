@@ -8,7 +8,8 @@ class UserRepository {
 
   Future<void> registerUser(User user) async {
     try {
-      final String newId = uuid.v4();
+      // 아이디 비었다면 아이디 생성, 안비었다면 그대로 사용
+      final String newId = user.id.isEmpty ? uuid.v4() : user.id;
       final updateUser = User(
         id: newId,
         nickname: user.nickname,
@@ -38,7 +39,8 @@ class UserRepository {
       await FirebaseFirestore.instance
           .collection('user')
           .doc(user.id)
-          .set(user.toJson());
+          // set 대신 업데이트
+          .update(user.toJson());
 
       print('회원정보 수정 완료: ${user.nickname}');
     } catch (e) {

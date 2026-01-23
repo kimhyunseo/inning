@@ -7,11 +7,7 @@ import 'package:inning/core/model/team.dart';
 import 'package:inning/core/model/user.dart';
 import 'package:inning/core/repository/user_repository.dart';
 
-class WelcomeState {
-  // 이 부분 수정 필요
-  // String? profileImage;
-  // WelcomeState({this.profileImage});
-}
+class WelcomeState {}
 
 class WelcomeViewModel extends Notifier<User> {
   //
