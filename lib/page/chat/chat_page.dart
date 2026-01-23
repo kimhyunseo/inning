@@ -6,7 +6,6 @@ import 'package:inning/core/model/stadium.dart';
 import 'package:inning/core/widgets/common_app_bar.dart';
 import 'package:inning/page/chat/chat_view_model.dart';
 import 'package:inning/page/chat/widgets/chat_tap_list_view.dart';
-import 'package:inning/page/chat/widgets/chat_tap_notice.dart';
 
 class ChatPage extends ConsumerStatefulWidget {
   final Stadium currentStadium;
