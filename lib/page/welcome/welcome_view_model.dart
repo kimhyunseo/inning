@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:inning/core/model/team.dart';
 import 'package:inning/core/model/user.dart';
 import 'package:inning/core/repository/user_repository.dart';
-import 'package:uuid/uuid.dart';
 
 class WelcomeState {
   //
