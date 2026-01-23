@@ -71,14 +71,15 @@ class GlobalLocationNotifier extends Notifier<GlobalLocationState> {
           district: currentDistrict,
           isLoading: false,
         );
-      } else {
-        state = state.copyWith(
-          locationState: HomeLocationState.permissionRequired,
-          isLoading: false,
-        );
-        // 실패시 종료
-        return;
       }
+      // else {
+      //   state = state.copyWith(
+      //     locationState: HomeLocationState.permissionRequired,
+      //     isLoading: false,
+      //   );
+      //   // 실패시 종료
+      //   return;
+      // }
       // 주소 획득 성공 상태
       // 2. 스타디움뷰모델 데이터 참조해서 현재 위치가 경기장 리스트 안인지 확인
       final stadiumState = ref.read(stadiumViewModelProvider);
