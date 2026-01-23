@@ -71,7 +71,6 @@ class GlobalLocationNotifier extends Notifier<GlobalLocationState> {
           district: currentDistrict,
           isLoading: false,
         );
-        // 알수없음 부분 추가
       } else {
         state = state.copyWith(
           locationState: HomeLocationState.permissionRequired,
