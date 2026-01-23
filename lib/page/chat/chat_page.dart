@@ -74,7 +74,7 @@ class _ChatPageState extends ConsumerState<ChatPage> {
           child: Column(
             children: [
               // 공지사항 영역
-              const ChatTapNotice(),
+              // const ChatTapNotice(),
 
               // 채팅 리스트 영역 (남은 공간을 꽉 채움)
               Expanded(

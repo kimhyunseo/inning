@@ -12,7 +12,9 @@ class User {
     : this(
         id: map['id'],
         nickname: map['nickname'],
-        favoriteTeam: map['favoriteTeam'],
+        favoriteTeam: map['favoriteTeam'] != null
+            ? Team.fromJson(map['favoriteTeam'])
+            : null,
         profileImage: map['profileImage'],
       );
 

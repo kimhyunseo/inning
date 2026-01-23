@@ -19,7 +19,7 @@ class ChatTapListView extends ConsumerStatefulWidget {
 }
 
 class _ChatTapListViewState extends ConsumerState<ChatTapListView> {
-  // 이제 발신자들(usersMap)은 ViewModel에서 관리하므로 내 정보(currentUser)만 관리합니다.
+  // 이제 발신자들(usersMap)은 ViewModel에서 관리하므로 내 정보(currentUser)만 관리
   User? currentUser;
 
   @override
