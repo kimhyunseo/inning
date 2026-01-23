@@ -43,7 +43,7 @@ class _HomePageState extends ConsumerState<HomePage> {
         },
       ),
       HomeLocationState.outsideStadium => OutsideStadiumCard(
-        address: state.adress,
+        address: state.district,
         // 비동기 작업 실패 시 다시시도 버튼 제공
         onRetry: () =>
             ref.read(homeViewModelProvider.notifier).requestLocationAndAdress(),
