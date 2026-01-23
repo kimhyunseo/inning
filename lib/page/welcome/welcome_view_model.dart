@@ -13,6 +13,7 @@ class WelcomeViewModel extends Notifier<User> {
   //
   @override
   User build() {
+    // Future
     return User(
       id: '',
       nickname: '',

@@ -27,6 +27,7 @@ class UserUtil {
   /// 유저가 등록되었는지 확인
   static Future<bool> isRegistered() async {
     final userId = await getUserId();
+    print(userId);
     if (userId == null) return false;
 
     final doc = await _firestore.collection('user').doc(userId).get();
