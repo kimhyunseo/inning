@@ -6,7 +6,6 @@ import 'package:inning/core/model/stadium.dart';
 import 'package:inning/core/widgets/common_app_bar.dart';
 import 'package:inning/page/chat/chat_view_model.dart';
 import 'package:inning/page/chat/widgets/chat_tap_list_view.dart';
-import 'package:inning/page/chat/widgets/chat_tap_notice.dart';
 
 class ChatPage extends ConsumerStatefulWidget {
   final Stadium currentStadium;
@@ -23,7 +22,6 @@ class _ChatPageState extends ConsumerState<ChatPage> {
   @override
   void initState() {
     super.initState();
-
     _controller = TextEditingController();
     _focusNode = FocusNode();
 
@@ -44,18 +42,6 @@ class _ChatPageState extends ConsumerState<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    void _onSubmit() {
-      if (_controller.text.trim().isNotEmpty) {
-        final vm = ref.read(chatViewModelProvider.notifier);
-        vm.sendMessage(
-          stadiumId: widget.currentStadium.id,
-          content: _controller.text,
-        );
-        // 전송 후 입력칸 비움
-        _controller.clear();
-      }
-    }
-
     return GestureDetector(
       // 빈 화면 터치시 키보드 사라짐
       onTap: () {
@@ -90,9 +76,9 @@ class _ChatPageState extends ConsumerState<ChatPage> {
                   focusNode: _focusNode,
 
                   // 키보드
-                  keyboardType: TextInputType.multiline,
+                  keyboardType: TextInputType.text,
                   minLines: 1,
-                  maxLines: 3,
+                  maxLines: 1,
 
                   autofocus: false,
                   style: AppTextStyles.bodySecondary14w500.copyWith(
@@ -134,5 +120,17 @@ class _ChatPageState extends ConsumerState<ChatPage> {
         ),
       ),
     );
+  }
+
+  void _onSubmit() {
+    if (_controller.text.trim().isNotEmpty) {
+      final vm = ref.read(chatViewModelProvider.notifier);
+      vm.sendMessage(
+        stadiumId: widget.currentStadium.id,
+        content: _controller.text,
+      );
+
+      _controller.clear();
+    }
   }
 }

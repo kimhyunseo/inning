@@ -8,11 +8,24 @@ import 'package:inning/page/home/widgets/match_score_card.dart';
 import 'package:inning/page/home/widgets/prediction_card.dart';
 import 'package:inning/page/home/widgets/stadium_live_header.dart';
 
-class InStadium extends ConsumerWidget {
+class InStadium extends ConsumerStatefulWidget {
   const InStadium({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<InStadium> createState() => _InStadiumState();
+}
+
+class _InStadiumState extends ConsumerState<InStadium> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(teamViewModelProvider.notifier).loadTeams();
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final stadiumState = ref.watch(stadiumViewModelProvider);
     final teamState = ref.watch(teamViewModelProvider);
 
@@ -21,6 +34,11 @@ class InStadium extends ConsumerWidget {
         teamState.isLoading ||
         stadiumState.currentStadium == null ||
         teamState.teams.isEmpty;
+
+    print('stadiumState.isLoading: ${stadiumState.isLoading}');
+    print('teamState.isLoading: ${teamState.isLoading}');
+    print('stadiumState.currentStadium: ${stadiumState.currentStadium}');
+    print('teamState.teams: ${teamState.teams}');
 
     if (isDataNotReady) {
       return const LoadingPage();

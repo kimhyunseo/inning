@@ -34,7 +34,6 @@ class StadiumViewModel extends Notifier<StadiumState> {
 
   @override
   StadiumState build() {
-    loadStadiums();
     // 초기 상태 설정
     return const StadiumState(
       stadiums: [],

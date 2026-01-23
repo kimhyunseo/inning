@@ -26,4 +26,18 @@ class User {
       'profileImage': profileImage,
     };
   }
+
+  User copyWith({
+    String? id,
+    String? nickname,
+    Team? favoriteTeam,
+    String? profileImage,
+  }) {
+    return User(
+      id: id ?? this.id,
+      nickname: nickname ?? this.nickname,
+      favoriteTeam: favoriteTeam ?? this.favoriteTeam,
+      profileImage: profileImage ?? this.profileImage,
+    );
+  }
 }

@@ -21,9 +21,18 @@ class HomePage extends ConsumerStatefulWidget {
 
 class _HomePageState extends ConsumerState<HomePage> {
   @override
+  void initState() {
+    // 빌드 메소드가 1번은 실행이 되고 난 이후에 호출
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(stadiumViewModelProvider.notifier).loadStadiums();
+    });
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final state = ref.watch(homeViewModelProvider);
-    final setState = ref.read(homeViewModelProvider.notifier);
 
     final stadiumState = ref.watch(stadiumViewModelProvider);
     final teamState = ref.watch(teamViewModelProvider);
@@ -36,18 +45,8 @@ class _HomePageState extends ConsumerState<HomePage> {
 
     Widget card = switch (state.locationState) {
       // 권한요청 팝업 띄우기. 홈페이지에서 함수 전달
-      HomeLocationState.permissionRequired => LocationPermissionCard(
-        onPermissionRequest: () {
-          // 홈뷰모델 홈노티파이어. 위치상태변경. 실제위치요청 로직 홈버튼 눌렀을 때 실행
-          ref.read(homeViewModelProvider.notifier).requestLocationAndAdress();
-        },
-      ),
-      HomeLocationState.outsideStadium => OutsideStadiumCard(
-        address: state.adress,
-        // 비동기 작업 실패 시 다시시도 버튼 제공
-        onRetry: () =>
-            ref.read(homeViewModelProvider.notifier).requestLocationAndAdress(),
-      ),
+      HomeLocationState.permissionRequired => LocationPermissionCard(),
+      HomeLocationState.outsideStadium => OutsideStadiumCard(),
       HomeLocationState.insideStadium => const InStadium(),
       HomeLocationState.locationError => Center(
         child: Column(children: [Text('위치 정보를 불러올 수 없습니다.')]),
@@ -65,82 +64,81 @@ class _HomePageState extends ConsumerState<HomePage> {
           );
         },
       ),
+      // 임시로 만든 버튼
+      // floatingActionButton: Column(
+      //   mainAxisSize: MainAxisSize.min,
+      //   children: [
+      //     FloatingActionButton.small(
+      //       heroTag: 'permission',
+      //       onPressed: () {
+      //         setState.setPermissionRequired();
+      //       },
+      //       child: const Text('권한'),
+      //     ),
+      //     const SizedBox(height: 8),
+      //     FloatingActionButton.small(
+      //       heroTag: 'outside',
+      //       onPressed: () {
+      //         setState.setOutsideStadium();
+      //       },
+      //       child: const Text('밖'),
+      //     ),
+      //     const SizedBox(height: 8),
+      //     FloatingActionButton.small(
+      //       heroTag: 'inside',
+      //       onPressed: () {
+      //         setState.setInsideStadium();
+      //       },
+      //       child: const Text('안'),
+      //     ),
+      //     const SizedBox(height: 16),
+      //     //임시 경기장 선택 버튼
+      //     FloatingActionButton.small(
+      //       heroTag: 'stadium',
+      //       onPressed: () async {
+      //         final stadiumVM = ref.read(stadiumViewModelProvider.notifier);
+      //         final teamVM = ref.read(teamViewModelProvider.notifier);
 
-      floatingActionButton: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          FloatingActionButton.small(
-            heroTag: 'permission',
-            onPressed: () {
-              setState.setPermissionRequired();
-            },
-            child: const Text('권한'),
-          ),
-          const SizedBox(height: 8),
-          FloatingActionButton.small(
-            heroTag: 'outside',
-            onPressed: () {
-              setState.setOutsideStadium();
-            },
-            child: const Text('밖'),
-          ),
-          const SizedBox(height: 8),
-          FloatingActionButton.small(
-            heroTag: 'inside',
-            onPressed: () {
-              setState.setInsideStadium();
-            },
-            child: const Text('안'),
-          ),
-          const SizedBox(height: 16),
-          //임시 경기장 선택 버튼
-          FloatingActionButton.small(
-            heroTag: 'stadium',
-            onPressed: () async {
-              final stadiumVM = ref.read(stadiumViewModelProvider.notifier);
-              final teamVM = ref.read(teamViewModelProvider.notifier);
+      //         // 데이터를 먼저 가져오기
+      //         await Future.wait([stadiumVM.loadStadiums(), teamVM.loadTeams()]);
 
-              // 데이터를 먼저 가져오기
-              await Future.wait([stadiumVM.loadStadiums(), teamVM.loadTeams()]);
+      //         final stadiumState = ref.read(stadiumViewModelProvider);
 
-              final stadiumState = ref.read(stadiumViewModelProvider);
+      //         if (stadiumState.stadiums.isEmpty) {
+      //           ScaffoldMessenger.of(context).showSnackBar(
+      //             const SnackBar(content: Text('경기장 데이터를 불러오지 못했습니다.')),
+      //           );
+      //           return;
+      //         }
 
-              if (stadiumState.stadiums.isEmpty) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('경기장 데이터를 불러오지 못했습니다.')),
-                );
-                return;
-              }
-
-              if (mounted) {}
-              // 가져온 데이터로 BottomSheet 열기
-              showModalBottomSheet(
-                context: context,
-                builder: (ctx) {
-                  final stadiums = stadiumState.stadiums;
-                  return ListView(
-                    children: stadiums
-                        .map(
-                          (s) => ListTile(
-                            title: Text(s.name),
-                            onTap: () {
-                              ref
-                                  .read(stadiumViewModelProvider.notifier)
-                                  .setCurrentStadium(s);
-                              Navigator.pop(ctx);
-                            },
-                          ),
-                        )
-                        .toList(),
-                  );
-                },
-              );
-            },
-            child: const Icon(Icons.sports_baseball),
-          ),
-        ],
-      ),
-
+      //         if (mounted) {}
+      //         // 가져온 데이터로 BottomSheet 열기
+      //         showModalBottomSheet(
+      //           context: context,
+      //           builder: (ctx) {
+      //             final stadiums = stadiumState.stadiums;
+      //             return ListView(
+      //               children: stadiums
+      //                   .map(
+      //                     (s) => ListTile(
+      //                       title: Text(s.name),
+      //                       onTap: () {
+      //                         ref
+      //                             .read(stadiumViewModelProvider.notifier)
+      //                             .setCurrentStadium(s);
+      //                         Navigator.pop(ctx);
+      //                       },
+      //                     ),
+      //                   )
+      //                   .toList(),
+      //             );
+      //           },
+      //         );
+      //       },
+      //       child: const Icon(Icons.sports_baseball),
+      //     ),
+      //   ],
+      // ),
       bottomSheet:
           (state.locationState == HomeLocationState.insideStadium && !isLoading)
           ? SafeArea(

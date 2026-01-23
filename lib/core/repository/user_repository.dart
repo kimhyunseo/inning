@@ -6,7 +6,7 @@ import 'package:uuid/uuid.dart';
 class UserRepository {
   final uuid = Uuid(); // Uuid 생성기 준비
 
-  Future<void> registerUser(User user) async {
+  Future<String?> registerUser(User user) async {
     try {
       // 아이디 비었다면 아이디 생성, 안비었다면 그대로 사용
       final String newId = user.id.isEmpty ? uuid.v4() : user.id;
@@ -24,8 +24,11 @@ class UserRepository {
             .doc(newId)
             .set(updateUser.toJson()),
       ]);
+
+      return newId;
     } catch (e) {
       print('레포지토리 에러 ${e}');
+      return null;
     }
   }
 

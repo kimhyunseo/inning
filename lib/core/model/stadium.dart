@@ -4,6 +4,7 @@ class Stadium {
   final String imageAsset;
   final double latitude;
   final double longitude;
+  final String district;
 
   const Stadium({
     required this.id,
@@ -11,6 +12,7 @@ class Stadium {
     required this.imageAsset,
     required this.latitude,
     required this.longitude,
+    required this.district,
   });
 
   // Firestore / JSON에 저장할 때
@@ -21,6 +23,7 @@ class Stadium {
       'imageAsset': imageAsset,
       'latitude': latitude,
       'longitude': longitude,
+      'district': district,
     };
   }
 
@@ -32,6 +35,7 @@ class Stadium {
       imageAsset: json['imageAsset'] as String,
       latitude: (json['latitude'] as num).toDouble(),
       longitude: (json['longitude'] as num).toDouble(),
+      district: json['district'] as String,
     );
   }
 }

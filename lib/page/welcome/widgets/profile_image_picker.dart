@@ -9,7 +9,9 @@ class ProfileImagePicker extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final profileImageUrl = ref.watch(welcomeProvider).profileImage;
+    final userState = ref.watch(welcomeProvider);
+    final profileImageUrl = ref.watch(welcomeProvider).user.profileImage;
+
     return GestureDetector(
       onTap: () async {
         // 이미지피커 객체 생성
@@ -31,7 +33,9 @@ class ProfileImagePicker extends ConsumerWidget {
               color: AppColors.brandPopUp,
               shape: BoxShape.circle,
             ),
-            child: profileImageUrl != null && profileImageUrl.isNotEmpty
+            child: userState.isLoading
+                ? Center(child: CircularProgressIndicator())
+                : profileImageUrl != null && profileImageUrl.isNotEmpty
                 ? ClipOval(
                     child: Image.network(profileImageUrl, fit: BoxFit.cover),
                   )
